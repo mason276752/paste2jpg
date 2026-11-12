@@ -1,0 +1,1150 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>圖片轉 JPG 線上工具｜貼上即轉、可調品質、免上傳 – Paste → JPG</title>
+<meta name="description" content="免安裝、不上傳的圖片轉 JPG 工具：直接貼上截圖，或上傳 PNG、WebP、HEIC／HEIF、AVIF 圖片，在瀏覽器內即時轉成 JPG。可自訂品質與尺寸、即時顯示壓縮後大小，一鍵複製、下載或分享，手機也好用。">
+<link rel="canonical" href="https://mason276752.github.io/paste2jpg/">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="application-name" content="Paste → JPG">
+<meta name="apple-mobile-web-app-title" content="轉 JPG">
+<meta name="theme-color" content="#f5f6f8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#111317" media="(prefers-color-scheme: dark)">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Paste → JPG">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:url" content="https://mason276752.github.io/paste2jpg/">
+<meta property="og:title" content="圖片轉 JPG｜貼上即轉、可調品質 – Paste → JPG">
+<meta property="og:description" content="貼上截圖或上傳 PNG、WebP、HEIC，在瀏覽器內直接轉成 JPG。可調品質與尺寸，圖片不會上傳。">
+<meta property="og:image" content="https://mason276752.github.io/paste2jpg/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Paste → JPG：貼上圖片，立即轉成 JPG">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="圖片轉 JPG｜貼上即轉、可調品質 – Paste → JPG">
+<meta name="twitter:description" content="貼上截圖或上傳 PNG、WebP、HEIC，在瀏覽器內直接轉成 JPG。可調品質與尺寸，圖片不會上傳。">
+<meta name="twitter:image" content="https://mason276752.github.io/paste2jpg/og-image.png">
+
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="icon-192.png" sizes="192x192" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Paste → JPG",
+  "alternateName": "圖片轉 JPG 線上工具",
+  "url": "https://mason276752.github.io/paste2jpg/",
+  "image": "https://mason276752.github.io/paste2jpg/og-image.png",
+  "description": "直接貼上截圖或上傳 PNG、WebP、HEIC／HEIF、AVIF 圖片，在瀏覽器內即時轉成可自訂品質的 JPG。純前端運算，圖片不會上傳。",
+  "inLanguage": "zh-Hant",
+  "applicationCategory": "MultimediaApplication",
+  "operatingSystem": "Any",
+  "browserRequirements": "需要啟用 JavaScript 的現代瀏覽器",
+  "isAccessibleForFree": true,
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "TWD" },
+  "featureList": [
+    "貼上截圖直接轉 JPG",
+    "PNG、WebP、HEIC／HEIF、AVIF、GIF、BMP 轉 JPG",
+    "iPhone HEIC 照片在任何瀏覽器都能轉 JPG",
+    "自訂 JPG 品質（1–100）",
+    "限制最長邊縮小尺寸",
+    "透明背景填色",
+    "一鍵複製、下載、分享 JPG",
+    "純前端運算，圖片不上傳"
+  ]
+}
+</script>
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #f5f6f8;
+    --panel: #ffffff;
+    --text: #16181d;
+    --muted: #646b78;
+    --line: #e1e4e9;
+    --accent: #2f6fed;
+    --accent-ink: #ffffff;
+    --accent-soft: #edf3ff;
+    --good: #16803f;
+    --warn: #c2410c;
+    --chk: rgb(0 0 0 / .045);
+    --radius: 14px;
+    --shadow: 0 1px 2px rgb(0 0 0 / .04), 0 6px 20px rgb(0 0 0 / .05);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #111317;
+      --panel: #1a1d23;
+      --text: #e9ebef;
+      --muted: #99a0ac;
+      --line: #2c3139;
+      --accent: #5b8cff;
+      --accent-ink: #0b1020;
+      --accent-soft: #1b2640;
+      --good: #4ade80;
+      --warn: #fb923c;
+      --chk: rgb(255 255 255 / .05);
+      --shadow: none;
+    }
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 15px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+  }
+  main { max-width: 880px; margin: 0 auto; padding: 20px 16px 40px; }
+
+  header { margin: 4px 2px 16px; }
+  h1 { display: flex; align-items: center; gap: 10px; margin: 0 0 4px; font-size: 22px; letter-spacing: -.01em; }
+  h1 svg { width: 28px; height: 28px; flex: none; }
+  .h1-sub {
+    padding: 1px 9px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0;
+    white-space: nowrap;
+  }
+  header p { margin: 0; color: var(--muted); font-size: 14px; }
+
+  .panel { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); }
+
+  /* ---------- input ---------- */
+  .input { padding: 12px; }
+  .zone {
+    position: relative;
+    display: grid;
+    place-items: center;
+    min-height: 150px;
+    padding: 20px 16px;
+    border: 2px dashed var(--line);
+    border-radius: 10px;
+    text-align: center;
+    transition: border-color .15s, background-color .15s;
+  }
+  .zone:focus-within, body.dragging .zone { border-color: var(--accent); background: var(--accent-soft); }
+  .zone-art { display: grid; justify-items: center; gap: 4px; color: var(--muted); font-size: 13px; pointer-events: none; }
+  .zone-art svg { width: 34px; height: 34px; margin-bottom: 4px; color: var(--accent); }
+  .zone-art strong { color: var(--text); font-size: 16px; font-weight: 600; }
+  kbd {
+    display: inline-block;
+    min-width: 1.6em;
+    padding: 0 5px;
+    border: 1px solid var(--line);
+    border-bottom-width: 2px;
+    border-radius: 5px;
+    background: var(--panel);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.5;
+  }
+  /* The editable overlay is what makes long-press → 貼上 work on phones. */
+  .zone-input {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    border-radius: inherit;
+    outline: none;
+    color: transparent;
+    caret-color: transparent;
+    font-size: 16px; /* prevents iOS zoom-on-focus */
+    cursor: text;
+    -webkit-user-select: text;
+    user-select: text;
+  }
+  .touch-only { display: none; }
+  @media (hover: none) and (pointer: coarse) {
+    .touch-only { display: block; }
+    .desk-only { display: none; }
+  }
+
+  .actions { display: flex; gap: 8px; margin-top: 10px; }
+  .actions .btn { flex: 1; }
+
+  .btn {
+    appearance: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-height: 40px;
+    padding: 8px 14px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: var(--panel);
+    color: var(--text);
+    font: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: border-color .15s, background-color .15s, opacity .15s;
+  }
+  .btn:hover { border-color: color-mix(in srgb, var(--accent) 45%, var(--line)); }
+  .btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+  .btn.primary:hover { background: color-mix(in srgb, var(--accent) 88%, #000); }
+  .btn svg { width: 16px; height: 16px; flex: none; }
+  .btn.icon { min-width: 40px; padding: 8px; }
+  a.btn:not([href]) { opacity: .45; pointer-events: none; }
+
+  /* ---------- settings ---------- */
+  .settings {
+    position: sticky;
+    top: 8px;
+    z-index: 10;
+    display: grid;
+    gap: 10px;
+    margin-top: 12px;
+    padding: 12px 14px;
+  }
+  .q-row { display: flex; align-items: center; gap: 12px; }
+  .q-row label { font-weight: 600; white-space: nowrap; }
+  .q-row input[type=range] { flex: 1; min-width: 0; height: 28px; margin: 0; accent-color: var(--accent); }
+  .opts { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; color: var(--muted); font-size: 14px; }
+  .opts label { display: flex; align-items: center; gap: 8px; }
+  select, input[type=number] {
+    padding: 4px 8px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--bg);
+    color: var(--text);
+    font: inherit;
+    font-size: 16px; /* prevents iOS zoom-on-focus */
+  }
+  input[type=number] { width: 4.4em; text-align: center; font-variant-numeric: tabular-nums; font-weight: 600; }
+  input[type=color] { width: 40px; height: 30px; padding: 2px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); cursor: pointer; }
+
+  /* ---------- results ---------- */
+  .bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 20px 2px 10px; color: var(--muted); font-size: 14px; }
+  .bar .grow { flex: 1; min-width: 8em; }
+  .bar .btn { min-height: 34px; padding: 5px 12px; font-size: 13px; }
+  .results { display: grid; gap: 14px; }
+
+  .card { overflow: hidden; scroll-margin-top: 122px; }
+  .preview {
+    position: relative;
+    display: grid;
+    place-items: center;
+    min-height: 180px;
+    background: repeating-conic-gradient(var(--chk) 0 25%, transparent 0 50%) 50% / 20px 20px, var(--bg);
+  }
+  .preview img { display: block; max-width: 100%; max-height: 70vh; height: auto; cursor: copy; transition: opacity .15s; }
+  .view, .copy-hint {
+    position: absolute;
+    top: 10px;
+    border-radius: 999px;
+    background: rgb(0 0 0 / .62);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+  }
+  .view { left: 10px; display: flex; padding: 2px; }
+  .view button {
+    appearance: none;
+    padding: 3px 10px;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    letter-spacing: .04em;
+    opacity: .75;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .view button[aria-pressed=true] { background: #fff; color: #16181d; opacity: 1; }
+  .card.orig .view button[aria-pressed=true] { background: var(--warn); color: #fff; }
+  .copy-hint { right: 10px; padding: 3px 10px; pointer-events: none; opacity: 0; transition: opacity .15s; }
+  .preview:hover .copy-hint { opacity: 1; }
+  @media (hover: none) and (pointer: coarse) {
+    .view button { padding: 6px 12px; }
+    .copy-hint { opacity: .85; }
+  }
+  .card.busy .preview img { opacity: .5; }
+  .card.busy .preview::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    width: 30px;
+    height: 30px;
+    margin: auto;
+    border: 3px solid color-mix(in srgb, var(--accent) 25%, transparent);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin .8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px 12px;
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--line);
+  }
+  .info { flex: 1 1 260px; min-width: 0; }
+  .name { overflow: hidden; font-weight: 600; text-overflow: ellipsis; white-space: nowrap; }
+  .stats { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 8px; color: var(--muted); font-size: 13px; font-variant-numeric: tabular-nums; }
+  .stats > span { white-space: nowrap; }
+  .stats b { color: var(--text); }
+  .card.error .stats { color: var(--warn); }
+  .delta { padding: 0 6px; border-radius: 6px; font-size: 12px; font-weight: 700; }
+  .delta.good { color: var(--good); background: color-mix(in srgb, var(--good) 14%, transparent); }
+  .delta.bad { color: var(--warn); background: color-mix(in srgb, var(--warn) 14%, transparent); }
+  .btns { display: flex; flex: 1 1 auto; justify-content: flex-end; gap: 8px; }
+  @media (max-width: 520px) { .btns .dl { flex: 1; } }
+
+  .hint { margin: 14px 2px 0; color: var(--muted); font-size: 13px; }
+
+  /* ---------- about / FAQ ---------- */
+  .about { margin-top: 36px; padding: 20px 18px 8px; }
+  .about h2 { margin: 0 0 10px; font-size: 17px; }
+  .about ol { margin: 0 0 24px; padding-left: 1.4em; }
+  .about li { margin: 6px 0; }
+  .about li::marker { color: var(--accent); font-weight: 700; }
+  .about details { border-top: 1px solid var(--line); }
+  .about summary {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 0;
+    font-weight: 600;
+    list-style: none;
+    cursor: pointer;
+  }
+  .about summary::-webkit-details-marker { display: none; }
+  .about summary::after { content: "+"; color: var(--muted); font-weight: 400; }
+  .about details[open] summary::after { content: "−"; }
+  .about details p { margin: 0 0 14px; color: var(--muted); }
+
+  footer { margin-top: 28px; color: var(--muted); font-size: 12px; text-align: center; }
+  footer a { color: inherit; }
+
+  .toast {
+    position: fixed;
+    left: 50%;
+    bottom: calc(20px + env(safe-area-inset-bottom));
+    z-index: 50;
+    max-width: calc(100% - 32px);
+    padding: 10px 16px;
+    border-radius: 10px;
+    background: var(--text);
+    color: var(--bg);
+    font-size: 14px;
+    opacity: 0;
+    transform: translate(-50%, 16px);
+    transition: opacity .2s, transform .2s;
+    pointer-events: none;
+  }
+  .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+  body.dragging::after {
+    content: "放開以加入圖片";
+    position: fixed;
+    inset: 10px;
+    z-index: 40;
+    display: grid;
+    place-items: center;
+    border: 3px dashed var(--accent);
+    border-radius: 16px;
+    background: color-mix(in srgb, var(--bg) 82%, transparent);
+    color: var(--accent);
+    font-size: 20px;
+    font-weight: 600;
+    pointer-events: none;
+  }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#2f6fed"/><path d="M8 22l5-6 4 4 3-3 4 5z" fill="#fff"/><circle cx="21" cy="11" r="2.5" fill="#fff"/></svg>
+      Paste → JPG
+      <span class="h1-sub">圖片轉 JPG 線上工具</span>
+    </h1>
+    <p>貼上截圖或上傳 PNG、WebP、HEIC／HEIF，直接在瀏覽器裡轉成 JPG，圖片不會離開你的裝置。</p>
+  </header>
+
+  <section class="panel input">
+    <div class="zone">
+      <div class="zone-art" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1"/><path d="M9 14l2 2 4-4"/></svg>
+        <strong class="desk-only">按 <kbd>⌘</kbd> / <kbd>Ctrl</kbd> + <kbd>V</kbd> 貼上圖片</strong>
+        <span class="desk-only">在頁面任何地方都能貼上，也可以直接拖曳圖片進來</span>
+        <strong class="touch-only">長按這裡，選「貼上」</strong>
+        <span class="touch-only">或用下方按鈕選擇相片</span>
+      </div>
+      <div id="pasteTarget" class="zone-input" contenteditable="true" inputmode="none" role="textbox"
+           aria-label="貼上圖片的區域" spellcheck="false" autocorrect="off" autocapitalize="off"></div>
+    </div>
+    <div class="actions">
+      <button type="button" class="btn primary" id="pickBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a1 1 0 001 1h14a1 1 0 001-1v-3"/></svg>
+        選擇圖片
+      </button>
+      <button type="button" class="btn" id="clipBtn" hidden>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1"/></svg>
+        讀取剪貼簿
+      </button>
+    </div>
+    <input type="file" id="fileInput" accept="image/*,.heic,.heif" multiple hidden>
+  </section>
+
+  <section class="panel settings" aria-label="輸出設定">
+    <div class="q-row">
+      <label for="quality">品質</label>
+      <input type="range" id="quality" min="1" max="100" step="1" value="85">
+      <input type="number" id="qualityNum" min="1" max="100" step="1" value="85" inputmode="numeric" aria-label="品質數值 (1–100)">
+    </div>
+    <div class="opts">
+      <label>最長邊
+        <select id="maxSide">
+          <option value="0">原尺寸</option>
+          <option value="3840">3840 px</option>
+          <option value="2560">2560 px</option>
+          <option value="1920">1920 px</option>
+          <option value="1600">1600 px</option>
+          <option value="1280">1280 px</option>
+          <option value="1080">1080 px</option>
+          <option value="800">800 px</option>
+          <option value="640">640 px</option>
+        </select>
+      </label>
+      <label>透明處填色 <input type="color" id="bg" value="#ffffff"></label>
+    </div>
+  </section>
+
+  <div class="bar" id="bar" hidden>
+    <span class="grow" id="summary"></span>
+    <button type="button" class="btn" id="dlAll" hidden>全部下載</button>
+    <button type="button" class="btn" id="clearAll">全部清除</button>
+  </div>
+
+  <section class="results" id="results" aria-live="polite"></section>
+
+  <p class="hint touch-only" id="touchHint" hidden>提示：點圖片即可複製；長按圖片可以儲存到相簿。</p>
+
+  <section class="panel about">
+    <h2>怎麼把圖片轉成 JPG</h2>
+    <ol>
+      <li><strong>貼上或選擇圖片</strong>：電腦按 ⌘V／Ctrl+V，手機長按虛線框選「貼上」；也可以選擇檔案或直接拖曳，一次多張也可以。</li>
+      <li><strong>調整品質與尺寸</strong>：品質越低檔案越小，一般建議 75–90；需要更小時可限制「最長邊」。轉檔後的大小會即時顯示。</li>
+      <li><strong>取得 JPG</strong>：點圖片或「複製」直接貼到聊天、文件；或「下載」存成 .jpg 檔、「分享」到其他 App。</li>
+    </ol>
+
+    <h2>常見問題</h2>
+    <details>
+      <summary>圖片會上傳到伺服器嗎？</summary>
+      <p>不會。轉檔全程在你的瀏覽器裡用 Canvas 完成，這個網頁沒有任何上傳功能；頁面載入後即使斷網也能轉檔。</p>
+    </details>
+    <details>
+      <summary>支援哪些格式轉 JPG？</summary>
+      <p>PNG 轉 JPG、WebP 轉 JPG、HEIC／HEIF 轉 JPG，以及 AVIF、GIF（取第一格）、BMP、SVG 都可以。</p>
+    </details>
+    <details>
+      <summary>iPhone 的 HEIC 照片可以轉 JPG 嗎？</summary>
+      <p>可以，任何瀏覽器都行。Safari 會直接解碼；Chrome、Edge、Firefox 等不支援 HEIC 的瀏覽器，會在需要時自動載入 HEIF 解碼器（約 800 KB，只下載一次），同樣在你的裝置上運算，照片不會上傳。</p>
+    </details>
+    <details>
+      <summary>JPG 品質要設多少？</summary>
+      <p>照片設 80–90 幾乎看不出差別，檔案卻能小很多；截圖或有文字的圖片建議 90 以上，避免字的邊緣出現雜點；只是要縮圖預覽的話 60–75 就夠。調整時下方會即時顯示檔案大小與壓縮比例。</p>
+    </details>
+    <details>
+      <summary>為什麼透明背景變成白色？</summary>
+      <p>JPG 格式不支援透明，透明的地方會填入「透明處填色」設定的顏色，預設是白色，可以自己改。</p>
+    </details>
+    <details>
+      <summary>複製出去的圖片是 JPG 嗎？</summary>
+      <p>瀏覽器的剪貼簿目前只接受 PNG 格式的圖片，所以複製的是「已經轉成 JPG 之後的畫面」（品質與尺寸都已套用），但貼上時的檔案格式會是 PNG。需要真正的 .jpg 檔案，請用「下載」或「分享」。</p>
+    </details>
+    <details>
+      <summary>手機上怎麼用最方便？</summary>
+      <p>截圖後打開本頁，長按虛線框選「貼上」就會轉好；再點「分享」即可存到相簿或傳到 LINE 等 App。建議把本頁「加入主畫面」，用起來就像 App。</p>
+    </details>
+  </section>
+
+  <footer>
+    Paste → JPG · 所有運算都在瀏覽器內完成 ·
+    <a href="https://github.com/mason276752/paste2jpg">GitHub 原始碼</a>
+  </footer>
+</main>
+<noscript><p style="text-align:center">這個工具需要啟用 JavaScript 才能轉檔。</p></noscript>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<template id="cardTpl">
+  <article class="panel card busy">
+    <div class="meta">
+      <div class="info">
+        <div class="name"></div>
+        <div class="stats">處理中…</div>
+      </div>
+      <div class="btns">
+        <a class="btn primary dl">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v12M7 11l5 5 5-5"/><path d="M4 20h16"/></svg>
+          下載
+        </a>
+        <button type="button" class="btn copy">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 00-2-2H6a2 2 0 00-2 2v8a2 2 0 002 2h2"/></svg>
+          <span>複製</span>
+        </button>
+        <button type="button" class="btn share" hidden>分享</button>
+        <button type="button" class="btn icon rm" aria-label="移除" title="移除">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="preview">
+      <img alt="" title="點擊複製圖片">
+      <div class="view" role="group" aria-label="預覽切換">
+        <button type="button" data-view="jpg" aria-pressed="true">JPG</button>
+        <button type="button" data-view="orig" aria-pressed="false">原圖</button>
+      </div>
+      <span class="copy-hint">點圖複製</span>
+    </div>
+  </article>
+</template>
+
+<script>
+(() => {
+  'use strict';
+
+  const $ = (sel) => document.querySelector(sel);
+  const els = {
+    target: $('#pasteTarget'),
+    pick: $('#pickBtn'),
+    clip: $('#clipBtn'),
+    file: $('#fileInput'),
+    quality: $('#quality'),
+    qualityNum: $('#qualityNum'),
+    maxSide: $('#maxSide'),
+    bg: $('#bg'),
+    bar: $('#bar'),
+    summary: $('#summary'),
+    dlAll: $('#dlAll'),
+    clearAll: $('#clearAll'),
+    results: $('#results'),
+    touchHint: $('#touchHint'),
+    toast: $('#toast'),
+    tpl: $('#cardTpl'),
+  };
+
+  // iOS Safari refuses canvases above ~16.7 MP; elsewhere we allow much more.
+  const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent) ||
+    (/Macintosh/.test(navigator.userAgent) && navigator.maxTouchPoints > 1);
+  const SAFE_PIXELS = 16777216;
+  const MAX_PIXELS = isIOS ? SAFE_PIXELS : 64000000;
+
+  // Clipboards only take PNG images today; use JPG directly if a browser ever allows it.
+  const canCopyImage = !!(navigator.clipboard && navigator.clipboard.write && window.ClipboardItem);
+  const clipType = canCopyImage && typeof ClipboardItem.supports === 'function' && ClipboardItem.supports('image/jpeg')
+    ? 'image/jpeg' : 'image/png';
+
+  const canShareFiles = (() => {
+    try {
+      return !!navigator.canShare && navigator.canShare({ files: [new File([''], 'x.jpg', { type: 'image/jpeg' })] });
+    } catch { return false; }
+  })();
+
+  // ---------- settings ----------
+  const STORE_KEY = 'paste2jpg:settings';
+  const settings = { quality: 85, maxSide: 0, bg: '#ffffff' };
+  try { Object.assign(settings, JSON.parse(localStorage.getItem(STORE_KEY)) || {}); } catch {}
+  settings.quality = clamp(Math.round(+settings.quality) || 85, 1, 100);
+  if (!/^#[0-9a-f]{6}$/i.test(settings.bg)) settings.bg = '#ffffff';
+
+  els.quality.value = els.qualityNum.value = settings.quality;
+  els.maxSide.value = String(settings.maxSide);
+  if (els.maxSide.value !== String(settings.maxSide)) els.maxSide.value = '0';
+  settings.maxSide = +els.maxSide.value;
+  els.bg.value = settings.bg;
+
+  const settingsKey = () => `${settings.quality}|${settings.maxSide}|${settings.bg}`;
+  const saveSettings = () => { try { localStorage.setItem(STORE_KEY, JSON.stringify(settings)); } catch {} };
+
+  // ---------- helpers ----------
+  function clamp(n, lo, hi) { return Math.min(hi, Math.max(lo, n)); }
+  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+  const pad = (n) => String(n).padStart(2, '0');
+
+  function fmtBytes(n) {
+    if (n < 1024) return `${n} B`;
+    if (n < 1048576) return `${(n / 1024).toFixed(n < 10240 ? 1 : 0)} KB`;
+    return `${(n / 1048576).toFixed(n < 10485760 ? 2 : 1)} MB`;
+  }
+
+  function typeLabel(blob) {
+    const type = blob.type;
+    if (type === 'image/jpeg') return 'JPG';
+    if (type === 'image/svg+xml') return 'SVG';
+    if (type.startsWith('image/')) return type.slice(6).toUpperCase();
+    const ext = /\.([a-z0-9]{2,5})$/i.exec(blob.name || '');
+    return ext ? ext[1].toUpperCase() : '原檔';
+  }
+
+  function timeStamp() {
+    const d = new Date();
+    return `${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}-${pad(d.getHours())}${pad(d.getMinutes())}${pad(d.getSeconds())}`;
+  }
+
+  let toastTimer;
+  function toast(msg) {
+    els.toast.textContent = msg;
+    els.toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => els.toast.classList.remove('show'), 2800);
+  }
+
+  function span(text, className) {
+    const s = document.createElement('span');
+    if (className) s.className = className;
+    s.textContent = text;
+    return s;
+  }
+
+  // ---------- image pipeline ----------
+  function loadImage(url) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => resolve(img);
+      img.onerror = () => reject(new Error('decode failed'));
+      img.src = url;
+    });
+  }
+
+  // ---------- HEIC / HEIF ----------
+  // Only Safari decodes HEIF natively. Elsewhere we lazy-load libheif (WASM, runs locally).
+  const HEIF_BRANDS = new Set(['heic', 'heix', 'hevc', 'hevx', 'heim', 'heis', 'hevm', 'hevs', 'mif1', 'mif2', 'msf1']);
+  const HEIF_EXT = /\.(heic|heif|hif)$/i;
+
+  async function isHeif(blob) {
+    if (/^image\/hei[cf]/i.test(blob.type) || HEIF_EXT.test(blob.name || '')) return true;
+    const head = new Uint8Array(await blob.slice(0, 12).arrayBuffer());
+    const text = String.fromCharCode(...head);
+    return text.slice(4, 8) === 'ftyp' && HEIF_BRANDS.has(text.slice(8, 12));
+  }
+
+  let heifLib;
+  function loadHeifDecoder() {
+    heifLib = heifLib || import('./vendor/heic-to.js').catch((err) => { heifLib = null; throw err; });
+    return heifLib;
+  }
+
+  // Resolves to something drawImage() accepts: an <img>, or an ImageBitmap for HEIF.
+  async function decodeSource(item) {
+    item.srcUrl = URL.createObjectURL(item.blob);
+    try {
+      return await loadImage(item.srcUrl);
+    } catch (err) {
+      if (!(await isHeif(item.blob))) throw err;
+    }
+    URL.revokeObjectURL(item.srcUrl);
+    item.srcUrl = null; // the browser can't show the original; made on demand (originalUrl)
+    item.heif = true;
+    item.stats.textContent = heifLib ? '正在解碼 HEIF…' : '正在載入 HEIF 解碼器…';
+    const { heicTo } = await loadHeifDecoder();
+    item.stats.textContent = '正在解碼 HEIF…';
+    return heicTo({ blob: item.blob, type: 'bitmap' });
+  }
+
+  // URL for the 「原圖」 view. For HEIF in non-Safari browsers that's a lossless PNG of the decode.
+  function originalUrl(item) {
+    if (item.srcUrl) return Promise.resolve(item.srcUrl);
+    item.srcUrlPending = item.srcUrlPending || (async () => {
+      const c = makeCanvas(item.w, item.h);
+      c.getContext('2d').drawImage(item.img, 0, 0);
+      const png = await new Promise((resolve) => c.toBlob(resolve, 'image/png'));
+      release(c);
+      if (!png) throw new Error('toBlob failed');
+      if (item.removed) return '';
+      return (item.srcUrl = URL.createObjectURL(png));
+    })();
+    return item.srcUrlPending;
+  }
+
+  function makeCanvas(w, h) {
+    const c = document.createElement('canvas');
+    c.width = w;
+    c.height = h;
+    return c;
+  }
+  // Shrinking to 0×0 frees canvas memory right away (matters on iOS).
+  const release = (c) => { c.width = c.height = 0; };
+
+  function encodeJpeg(img, w, h, opt, maxPixels) {
+    let scale = 1;
+    let capped = false;
+    if (opt.maxSide && Math.max(w, h) > opt.maxSide) scale = opt.maxSide / Math.max(w, h);
+    if (w * h * scale * scale > maxPixels) {
+      scale = Math.sqrt(maxPixels * 0.999 / (w * h));
+      capped = true;
+    }
+    const tw = Math.max(1, Math.round(w * scale));
+    const th = Math.max(1, Math.round(h * scale));
+
+    // Halve step by step for large reductions: noticeably sharper than one big jump.
+    let cur = img, cw = w, ch = h;
+    while (cw / 2 >= tw && ch / 2 >= th && Math.round(cw / 2) * Math.round(ch / 2) <= maxPixels) {
+      const nw = Math.round(cw / 2), nh = Math.round(ch / 2);
+      const c = makeCanvas(nw, nh);
+      const cx = c.getContext('2d');
+      cx.imageSmoothingQuality = 'high';
+      cx.drawImage(cur, 0, 0, nw, nh);
+      if (cur !== img) release(cur);
+      cur = c; cw = nw; ch = nh;
+    }
+
+    const out = makeCanvas(tw, th);
+    const ctx = out.getContext('2d', { alpha: false });
+    if (!ctx) return Promise.reject(new Error('no 2d context'));
+    ctx.fillStyle = opt.bg; // JPG has no alpha, so transparent areas get this colour
+    ctx.fillRect(0, 0, tw, th);
+    ctx.imageSmoothingQuality = 'high';
+    ctx.drawImage(cur, 0, 0, tw, th);
+    if (cur !== img) release(cur);
+
+    return new Promise((resolve, reject) => {
+      out.toBlob((blob) => {
+        release(out);
+        blob ? resolve({ blob, w: tw, h: th, capped }) : reject(new Error('toBlob failed'));
+      }, 'image/jpeg', opt.quality / 100);
+    });
+  }
+
+  // ---------- items ----------
+  const items = [];
+
+  function uniqueName(base) {
+    const taken = new Set(items.map((i) => i.name));
+    let name = `${base}.jpg`;
+    for (let n = 2; taken.has(name); n++) name = `${base}-${n}.jpg`;
+    return name;
+  }
+
+  function createItem(blob, name) {
+    const el = els.tpl.content.firstElementChild.cloneNode(true);
+    const q = (s) => el.querySelector(s);
+    const item = {
+      blob, name, el,
+      origSize: blob.size,
+      imgEl: q('img'),
+      stats: q('.stats'),
+      dl: q('.dl'),
+      copy: q('.copy'),
+      share: q('.share'),
+      v: 0,
+      showOrig: false,
+    };
+    q('.name').textContent = name;
+    q('.name').title = name;
+    item.imgEl.alt = name;
+    item.share.hidden = !canShareFiles;
+    item.copy.hidden = !canCopyImage;
+    q('.copy-hint').hidden = !canCopyImage;
+
+    q('.view').addEventListener('click', async (e) => {
+      const btn = e.target.closest('button');
+      if (!btn || !item.jpgUrl) return;
+      const orig = btn.dataset.view === 'orig';
+      item.showOrig = orig;
+      for (const b of q('.view').children) b.setAttribute('aria-pressed', String(b === btn));
+      el.classList.toggle('orig', orig);
+      let url = item.jpgUrl;
+      if (orig) {
+        try { url = await originalUrl(item); } catch { toast('無法顯示原圖'); return; }
+      }
+      if (item.showOrig === orig && !item.removed) item.imgEl.src = url;
+    });
+
+    item.imgEl.addEventListener('click', () => copyItem(item));
+    item.copy.addEventListener('click', () => copyItem(item));
+
+    item.share.addEventListener('click', async () => {
+      if (!item.jpg) return;
+      try {
+        await navigator.share({ files: [new File([item.jpg], item.name, { type: 'image/jpeg' })] });
+      } catch (err) {
+        if (err.name !== 'AbortError') toast('分享失敗，請改用下載');
+      }
+    });
+
+    q('.rm').addEventListener('click', () => removeItem(item));
+    return item;
+  }
+
+  // Re-encodes the finished JPG's pixels as PNG for the clipboard (cached per JPG).
+  function jpgAsPng(item) {
+    const jpg = item.jpg;
+    if (item.png && item.pngOf === jpg) return Promise.resolve(item.png);
+    return (async () => {
+      const src = window.createImageBitmap ? await createImageBitmap(jpg) : await loadImage(item.jpgUrl);
+      const c = makeCanvas(src.width, src.height);
+      c.getContext('2d').drawImage(src, 0, 0);
+      if (src.close) src.close();
+      const png = await new Promise((resolve, reject) => c.toBlob((b) => {
+        release(c);
+        b ? resolve(b) : reject(new Error('toBlob failed'));
+      }, 'image/png'));
+      item.png = png;
+      item.pngOf = jpg;
+      return png;
+    })();
+  }
+
+  let copyTimer;
+  function copyItem(item) {
+    if (!item.jpg) return;
+    if (!canCopyImage) { toast('這個瀏覽器不支援複製圖片，請改用下載或長按圖片'); return; }
+    if (item.el.classList.contains('busy')) { toast('還在轉檔，請稍候再複製'); return; }
+    // Must call write() synchronously inside the click (Safari), so pass a promise.
+    const data = clipType === 'image/jpeg' ? item.jpg : jpgAsPng(item);
+    navigator.clipboard.write([new ClipboardItem({ [clipType]: data })]).then(() => {
+      toast('已複製圖片，可以直接貼上');
+      const label = item.copy.querySelector('span');
+      for (const i of items) i.copy.querySelector('span').textContent = '複製';
+      label.textContent = '已複製';
+      clearTimeout(copyTimer);
+      copyTimer = setTimeout(() => { label.textContent = '複製'; }, 1800);
+    }, (err) => {
+      toast(err && err.name === 'NotAllowedError' ? '瀏覽器拒絕了複製，請再點一次' : '複製失敗，請改用下載');
+    });
+  }
+
+  function removeItem(item) {
+    item.removed = true;
+    if (item.img && item.img.close) item.img.close(); // ImageBitmap from the HEIF decoder
+    if (item.srcUrl) URL.revokeObjectURL(item.srcUrl);
+    if (item.jpgUrl) URL.revokeObjectURL(item.jpgUrl);
+    item.el.remove();
+    const i = items.indexOf(item);
+    if (i >= 0) items.splice(i, 1);
+    updateBar();
+  }
+
+  function renderStats(item) {
+    const s = item.stats;
+    s.replaceChildren();
+    const same = item.outW === item.w && item.outH === item.h;
+    s.append(span(same ? `${item.w}×${item.h}` : `${item.w}×${item.h} → ${item.outW}×${item.outH}`));
+
+    let label = typeLabel(item.blob);
+    if (item.heif && label === '原檔') label = 'HEIF';
+    const size = span(`${label} ${fmtBytes(item.origSize)} → `);
+    const b = document.createElement('b');
+    b.textContent = fmtBytes(item.jpg.size);
+    size.append(b);
+    s.append(size);
+
+    if (item.origSize > 0) {
+      const pct = Math.round((item.jpg.size / item.origSize - 1) * 100);
+      s.append(span(pct < 0 ? `−${-pct}%` : pct > 0 ? `+${pct}%` : '±0%', `delta ${pct <= 0 ? 'good' : 'bad'}`));
+    }
+    if (item.capped) s.append(span('已依瀏覽器上限縮小'));
+  }
+
+  async function encode(item) {
+    const v = ++item.v;
+    const key = settingsKey();
+    const opt = { ...settings };
+    item.el.classList.add('busy');
+
+    let res;
+    try {
+      res = await encodeJpeg(item.img, item.w, item.h, opt, MAX_PIXELS);
+    } catch {
+      // Some browsers silently fail on huge canvases; retry at the conservative limit.
+      if (MAX_PIXELS > SAFE_PIXELS && item.w * item.h > SAFE_PIXELS) {
+        try { res = await encodeJpeg(item.img, item.w, item.h, opt, SAFE_PIXELS); } catch {}
+      }
+    }
+    // A newer encode or a settings change has superseded this one.
+    if (item.removed || v !== item.v || key !== settingsKey()) return;
+
+    if (!res) {
+      item.el.classList.remove('busy');
+      item.el.classList.add('error');
+      item.stats.textContent = '轉檔失敗：圖片可能太大，試試縮小「最長邊」';
+      return;
+    }
+
+    const url = URL.createObjectURL(res.blob);
+    if (!item.showOrig) {
+      // Decode first so swapping src doesn't flash an empty frame.
+      const pre = new Image();
+      pre.src = url;
+      try { await pre.decode(); } catch {}
+      if (item.removed || v !== item.v) { URL.revokeObjectURL(url); return; }
+      item.imgEl.src = url;
+    }
+    if (item.jpgUrl) URL.revokeObjectURL(item.jpgUrl);
+    item.jpgUrl = url;
+    item.jpg = res.blob;
+    item.outW = res.w;
+    item.outH = res.h;
+    item.capped = res.capped;
+    item.dl.href = url;
+    item.dl.download = item.name;
+    item.el.classList.remove('busy', 'error');
+    renderStats(item);
+    updateBar();
+  }
+
+  async function addBlobs(list, source) {
+    const blobs = list.filter((b) => !b.type || b.type.startsWith('image/') || HEIF_EXT.test(b.name || ''));
+    if (!blobs.length) { toast('沒有可用的圖片'); return; }
+
+    const stamp = timeStamp();
+    const anchor = els.results.firstElementChild;
+    const created = blobs.map((blob, i) => {
+      const base = source === 'paste' || !blob.name
+        ? `paste-${stamp}${blobs.length > 1 ? `-${i + 1}` : ''}`
+        : blob.name.replace(/\.[^./]+$/, '') || 'image';
+      const item = createItem(blob, uniqueName(base));
+      els.results.insertBefore(item.el, anchor); // newest batch on top, in original order
+      items.splice(i, 0, item);
+      return item;
+    });
+    updateBar();
+
+    let scrolled = false;
+    for (const item of created) {
+      if (item.removed) continue;
+      try {
+        item.img = await decodeSource(item);
+        item.w = item.img.naturalWidth || item.img.width || 1024;
+        item.h = item.img.naturalHeight || item.img.height || 1024;
+      } catch {
+        toast(`無法開啟「${item.blob.name || '貼上的圖片'}」：此瀏覽器不支援這個格式`);
+        removeItem(item);
+        continue;
+      }
+      if (item.removed) continue;
+      await encode(item);
+      // Once the first result has its real height, bring it up under the sticky
+      // settings bar so its buttons are in reach (mainly for phones).
+      if (!scrolled && !item.removed) {
+        scrolled = true;
+        if (item.el.getBoundingClientRect().top > innerHeight * 0.5) {
+          item.el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+    }
+  }
+
+  function updateBar() {
+    els.bar.hidden = !items.length;
+    els.dlAll.hidden = items.length < 2;
+    els.touchHint.hidden = !items.length;
+    const done = items.filter((i) => i.jpg);
+    let text = `${items.length} 張`;
+    if (done.length) {
+      const orig = done.reduce((s, i) => s + i.origSize, 0);
+      const jpg = done.reduce((s, i) => s + i.jpg.size, 0);
+      text += ` · ${fmtBytes(orig)} → ${fmtBytes(jpg)}`;
+    }
+    els.summary.textContent = text;
+  }
+
+  // ---------- re-encode on settings change ----------
+  let pass = 0;
+  let passTimer;
+
+  async function renderAll(p) {
+    for (const item of [...items]) {
+      if (p !== pass) return;
+      if (item.img && !item.removed) await encode(item);
+    }
+  }
+
+  function settingsChanged(delay) {
+    saveSettings();
+    const p = ++pass;
+    for (const item of items) if (item.img) item.el.classList.add('busy');
+    clearTimeout(passTimer);
+    passTimer = setTimeout(() => renderAll(p), delay);
+  }
+
+  els.quality.addEventListener('input', () => {
+    settings.quality = +els.quality.value;
+    els.qualityNum.value = settings.quality;
+    settingsChanged(150);
+  });
+  els.qualityNum.addEventListener('input', () => {
+    const n = Math.round(+els.qualityNum.value);
+    if (n >= 1 && n <= 100 && n !== settings.quality) {
+      settings.quality = n;
+      els.quality.value = n;
+      settingsChanged(300);
+    }
+  });
+  els.qualityNum.addEventListener('change', () => { els.qualityNum.value = settings.quality; });
+  els.maxSide.addEventListener('change', () => {
+    settings.maxSide = +els.maxSide.value;
+    settingsChanged(0);
+  });
+  els.bg.addEventListener('input', () => {
+    settings.bg = els.bg.value;
+    settingsChanged(150);
+  });
+
+  // ---------- input: paste ----------
+  function imageFiles(dt) {
+    const out = [];
+    for (const it of dt.items || []) {
+      if (it.kind === 'file' && it.type.startsWith('image/')) {
+        const f = it.getAsFile();
+        if (f) out.push(f);
+      }
+    }
+    if (!out.length) for (const f of dt.files || []) if (f.type.startsWith('image/')) out.push(f);
+    return out;
+  }
+
+  function isTextField(el) {
+    if (!el || el === els.target) return false;
+    if (el.isContentEditable || el.tagName === 'TEXTAREA') return true;
+    return el.tagName === 'INPUT' && !['range', 'color', 'checkbox', 'radio', 'button', 'submit', 'file'].includes(el.type);
+  }
+
+  // Copying from some apps/pages yields only HTML (or a URL) instead of an image file.
+  function imageSources(html, text) {
+    const srcs = [];
+    if (html) {
+      const doc = new DOMParser().parseFromString(html, 'text/html');
+      for (const img of doc.querySelectorAll('img[src]')) srcs.push(img.getAttribute('src'));
+    }
+    const t = (text || '').trim();
+    if (/^data:image\//i.test(t) || /^https?:\/\/\S+\.(png|jpe?g|gif|webp|avif|bmp|svg)(\?\S*)?$/i.test(t)) srcs.push(t);
+    return srcs.filter((s) => /^(data:image\/|blob:|https?:)/i.test(s));
+  }
+
+  async function fetchImages(srcs) {
+    const out = [];
+    for (const src of srcs) {
+      try {
+        const res = await fetch(src);
+        if (!res.ok) continue;
+        const blob = await res.blob();
+        if (blob.type.startsWith('image/')) out.push(blob);
+      } catch {}
+    }
+    return out;
+  }
+
+  window.addEventListener('paste', async (e) => {
+    const dt = e.clipboardData;
+    if (!dt) return;
+    const files = imageFiles(dt);
+    if (files.length) {
+      e.preventDefault();
+      addBlobs(files, 'paste');
+      return;
+    }
+    if (isTextField(e.target)) return; // ordinary text paste into a form field
+    e.preventDefault();
+    const srcs = imageSources(dt.getData('text/html'), dt.getData('text/plain'));
+    if (!srcs.length) { toast('剪貼簿裡沒有圖片'); return; }
+    const blobs = await fetchImages(srcs);
+    if (blobs.length) addBlobs(blobs, 'paste');
+    else toast('無法讀取這張網路圖片，請改用「拷貝圖片」或先存檔再上傳');
+  });
+
+  // Keep the paste overlay empty: it only exists to receive paste events.
+  els.target.addEventListener('beforeinput', (e) => e.preventDefault());
+  els.target.addEventListener('input', () => { els.target.textContent = ''; });
+
+  // Safari only fires paste when an editable element has focus, so route ⌘V/Ctrl+V there.
+  window.addEventListener('keydown', (e) => {
+    if ((e.metaKey || e.ctrlKey) && !e.altKey && e.key.toLowerCase() === 'v' && !isTextField(document.activeElement)) {
+      els.target.focus({ preventScroll: true });
+    }
+  });
+
+  // ---------- input: clipboard button ----------
+  if (navigator.clipboard && typeof navigator.clipboard.read === 'function') {
+    els.clip.hidden = false;
+    els.clip.addEventListener('click', async () => {
+      try {
+        const out = [];
+        for (const ci of await navigator.clipboard.read()) {
+          const type = ci.types.find((t) => t.startsWith('image/'));
+          if (type) out.push(await ci.getType(type));
+        }
+        if (out.length) addBlobs(out, 'paste');
+        else toast('剪貼簿裡沒有圖片');
+      } catch (err) {
+        toast(err && err.name === 'NotAllowedError' ? '無法讀取剪貼簿：權限被拒絕' : '無法讀取剪貼簿');
+      }
+    });
+  }
+
+  // ---------- input: file picker ----------
+  els.pick.addEventListener('click', () => els.file.click());
+  els.file.addEventListener('change', () => {
+    addBlobs([...els.file.files], 'file');
+    els.file.value = '';
+  });
+
+  // ---------- input: drag & drop ----------
+  let dragDepth = 0;
+  const hasFiles = (e) => !!e.dataTransfer && [...e.dataTransfer.types].includes('Files');
+  const endDrag = () => { dragDepth = 0; document.body.classList.remove('dragging'); };
+
+  window.addEventListener('dragenter', (e) => {
+    if (!hasFiles(e)) return;
+    e.preventDefault();
+    dragDepth++;
+    document.body.classList.add('dragging');
+  });
+  window.addEventListener('dragover', (e) => {
+    if (!hasFiles(e)) return;
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'copy';
+  });
+  window.addEventListener('dragleave', (e) => {
+    if (hasFiles(e) && --dragDepth <= 0) endDrag();
+  });
+  window.addEventListener('drop', (e) => {
+    if (!hasFiles(e)) return;
+    e.preventDefault();
+    endDrag();
+    addBlobs([...e.dataTransfer.files], 'file');
+  });
+
+  // ---------- bulk actions ----------
+  els.dlAll.addEventListener('click', async () => {
+    for (const item of [...items]) {
+      if (!item.jpgUrl) continue;
+      const a = document.createElement('a');
+      a.href = item.jpgUrl;
+      a.download = item.name;
+      document.body.append(a);
+      a.click();
+      a.remove();
+      await sleep(300);
+    }
+  });
+  els.clearAll.addEventListener('click', () => [...items].forEach(removeItem));
+})();
+</script>
+</body>
+</html>
