@@ -1,0 +1,7 @@
+node_modules/
+
+# Local test photos (keep private)
+/*.heic
+/*.HEIC
+/*.heif
+/*.HEIF

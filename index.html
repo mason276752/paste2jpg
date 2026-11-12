@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>圖片轉 JPG 線上工具｜貼上即轉、可調品質、免上傳 – Paste → JPG</title>
-<meta name="description" content="免安裝、不上傳的圖片轉 JPG 工具：直接貼上截圖，或上傳 PNG、WebP、HEIC／HEIF、AVIF 圖片，在瀏覽器內即時轉成 JPG。可自訂品質與尺寸、即時顯示壓縮後大小，一鍵複製、下載或分享，手機也好用。">
+<title>圖片轉 JPG、WebP 線上工具｜貼上即轉、可調品質、免上傳 – Paste → JPG</title>
+<meta name="description" content="免安裝、不上傳的圖片轉檔工具：直接貼上截圖，或上傳 PNG、HEIC／HEIF、AVIF 等圖片，在瀏覽器內即時轉成 JPG 或網頁用的 WebP。可自訂品質與尺寸、即時顯示壓縮後大小，一鍵複製、下載或分享，手機也好用。">
 <link rel="canonical" href="https://mason276752.github.io/paste2jpg/">
 <meta name="robots" content="index, follow, max-image-preview:large">
 <meta name="application-name" content="Paste → JPG">
@@ -16,15 +16,15 @@
 <meta property="og:site_name" content="Paste → JPG">
 <meta property="og:locale" content="zh_TW">
 <meta property="og:url" content="https://mason276752.github.io/paste2jpg/">
-<meta property="og:title" content="圖片轉 JPG｜貼上即轉、可調品質 – Paste → JPG">
-<meta property="og:description" content="貼上截圖或上傳 PNG、WebP、HEIC，在瀏覽器內直接轉成 JPG。可調品質與尺寸，圖片不會上傳。">
+<meta property="og:title" content="圖片轉 JPG、WebP｜貼上即轉、可調品質 – Paste → JPG">
+<meta property="og:description" content="貼上截圖或上傳 PNG、HEIC 等圖片，在瀏覽器內直接轉成 JPG 或 WebP。可調品質與尺寸，圖片不會上傳。">
 <meta property="og:image" content="https://mason276752.github.io/paste2jpg/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Paste → JPG：貼上圖片，立即轉成 JPG">
+<meta property="og:image:alt" content="Paste → JPG：貼上圖片，立即轉成 JPG 或 WebP">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="圖片轉 JPG｜貼上即轉、可調品質 – Paste → JPG">
-<meta name="twitter:description" content="貼上截圖或上傳 PNG、WebP、HEIC，在瀏覽器內直接轉成 JPG。可調品質與尺寸，圖片不會上傳。">
+<meta name="twitter:title" content="圖片轉 JPG、WebP｜貼上即轉、可調品質 – Paste → JPG">
+<meta name="twitter:description" content="貼上截圖或上傳 PNG、HEIC 等圖片，在瀏覽器內直接轉成 JPG 或 WebP。可調品質與尺寸，圖片不會上傳。">
 <meta name="twitter:image" content="https://mason276752.github.io/paste2jpg/og-image.png">
 
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -37,10 +37,10 @@
   "@context": "https://schema.org",
   "@type": "WebApplication",
   "name": "Paste → JPG",
-  "alternateName": "圖片轉 JPG 線上工具",
+  "alternateName": "圖片轉 JPG、WebP 線上工具",
   "url": "https://mason276752.github.io/paste2jpg/",
   "image": "https://mason276752.github.io/paste2jpg/og-image.png",
-  "description": "直接貼上截圖或上傳 PNG、WebP、HEIC／HEIF、AVIF 圖片，在瀏覽器內即時轉成可自訂品質的 JPG。純前端運算，圖片不會上傳。",
+  "description": "直接貼上截圖或上傳 PNG、HEIC／HEIF、AVIF 等圖片，在瀏覽器內即時轉成可自訂品質的 JPG 或 WebP。純前端運算，圖片不會上傳。",
   "inLanguage": "zh-Hant",
   "applicationCategory": "MultimediaApplication",
   "operatingSystem": "Any",
@@ -48,13 +48,14 @@
   "isAccessibleForFree": true,
   "offers": { "@type": "Offer", "price": "0", "priceCurrency": "TWD" },
   "featureList": [
-    "貼上截圖直接轉 JPG",
-    "PNG、WebP、HEIC／HEIF、AVIF、GIF、BMP 轉 JPG",
+    "貼上截圖直接轉 JPG 或 WebP",
+    "輸出網頁用 WebP，保留透明背景",
+    "PNG、HEIC／HEIF、AVIF、GIF、BMP 轉 JPG／WebP，WebP 轉 JPG",
     "iPhone HEIC 照片在任何瀏覽器都能轉 JPG",
-    "自訂 JPG 品質（1–100）",
+    "自訂 JPG／WebP 品質（1–100，WebP 100 為無損）",
     "限制最長邊縮小尺寸",
     "透明背景填色",
-    "一鍵複製、下載、分享 JPG",
+    "一鍵複製、下載、分享",
     "純前端運算，圖片不上傳"
   ]
 }
@@ -218,6 +219,13 @@
   .q-row input[type=range] { flex: 1; min-width: 0; height: 28px; margin: 0; accent-color: var(--accent); }
   .opts { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; color: var(--muted); font-size: 14px; }
   .opts label { display: flex; align-items: center; gap: 8px; }
+  .seg { display: inline-flex; padding: 2px; border: 1px solid var(--line); border-radius: 9px; background: var(--bg); }
+  .seg label { position: relative; }
+  .seg input { position: absolute; inset: 0; margin: 0; opacity: 0; cursor: pointer; }
+  .seg span { padding: 3px 14px; border-radius: 7px; color: var(--muted); font-weight: 600; }
+  .seg input:checked + span { background: var(--panel); color: var(--text); box-shadow: 0 1px 3px rgb(0 0 0 / .14); }
+  .seg input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 1px; }
+  @media (max-width: 480px) { #alphaNote { display: none; } } /* checkerboard already shows it */
   select, input[type=number] {
     padding: 4px 8px;
     border: 1px solid var(--line);
@@ -236,7 +244,7 @@
   .bar .btn { min-height: 34px; padding: 5px 12px; font-size: 13px; }
   .results { display: grid; gap: 14px; }
 
-  .card { overflow: hidden; scroll-margin-top: 122px; }
+  .card { overflow: hidden; scroll-margin-top: calc(var(--settings-h, 100px) + 22px); }
   .preview {
     position: relative;
     display: grid;
@@ -379,9 +387,9 @@
     <h1>
       <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#2f6fed"/><path d="M8 22l5-6 4 4 3-3 4 5z" fill="#fff"/><circle cx="21" cy="11" r="2.5" fill="#fff"/></svg>
       Paste → JPG
-      <span class="h1-sub">圖片轉 JPG 線上工具</span>
+      <span class="h1-sub">圖片轉 JPG／WebP 線上工具</span>
     </h1>
-    <p>貼上截圖或上傳 PNG、WebP、HEIC／HEIF，直接在瀏覽器裡轉成 JPG，圖片不會離開你的裝置。</p>
+    <p>貼上截圖或上傳 PNG、HEIC／HEIF 等圖片，直接在瀏覽器裡轉成 JPG 或網頁用的 WebP，圖片不會離開你的裝置。</p>
   </header>
 
   <section class="panel input">
@@ -416,6 +424,10 @@
       <input type="number" id="qualityNum" min="1" max="100" step="1" value="85" inputmode="numeric" aria-label="品質數值 (1–100)">
     </div>
     <div class="opts">
+      <div class="seg" role="radiogroup" aria-label="輸出格式">
+        <label><input type="radio" name="format" value="jpeg" checked><span>JPG</span></label>
+        <label><input type="radio" name="format" value="webp"><span>WebP</span></label>
+      </div>
       <label>最長邊
         <select id="maxSide">
           <option value="0">原尺寸</option>
@@ -429,7 +441,8 @@
           <option value="640">640 px</option>
         </select>
       </label>
-      <label>透明處填色 <input type="color" id="bg" value="#ffffff"></label>
+      <label id="bgField">透明處填色 <input type="color" id="bg" value="#ffffff"></label>
+      <span id="alphaNote" hidden>保留透明背景</span>
     </div>
   </section>
 
@@ -444,37 +457,45 @@
   <p class="hint touch-only" id="touchHint" hidden>提示：點圖片即可複製；長按圖片可以儲存到相簿。</p>
 
   <section class="panel about">
-    <h2>怎麼把圖片轉成 JPG</h2>
+    <h2>怎麼把圖片轉成 JPG 或 WebP</h2>
     <ol>
       <li><strong>貼上或選擇圖片</strong>：電腦按 ⌘V／Ctrl+V，手機長按虛線框選「貼上」；也可以選擇檔案或直接拖曳，一次多張也可以。</li>
-      <li><strong>調整品質與尺寸</strong>：品質越低檔案越小，一般建議 75–90；需要更小時可限制「最長邊」。轉檔後的大小會即時顯示。</li>
-      <li><strong>取得 JPG</strong>：點圖片或「複製」直接貼到聊天、文件；或「下載」存成 .jpg 檔、「分享」到其他 App。</li>
+      <li><strong>選格式、調品質與尺寸</strong>：要放到網站上選 WebP，要給一般軟體或寄信選 JPG；品質越低檔案越小，一般建議 75–90，需要更小時可限制「最長邊」。轉檔後的大小會即時顯示。</li>
+      <li><strong>取得圖片</strong>：點圖片或「複製」直接貼到聊天、文件；或「下載」存成 .jpg／.webp 檔、「分享」到其他 App。</li>
     </ol>
 
     <h2>常見問題</h2>
+    <details>
+      <summary>JPG 和 WebP 該選哪個？</summary>
+      <p>要放在網站、部落格、電商商品頁等網頁上，建議選 WebP：同樣畫質下檔案通常比 JPG 小 25–35%，網頁載入更快，還能保留透明背景，所有主流瀏覽器都支援。要寄 Email、上傳到較舊的系統，或給一般軟體開啟，選 JPG 最保險。</p>
+    </details>
     <details>
       <summary>圖片會上傳到伺服器嗎？</summary>
       <p>不會。轉檔全程在你的瀏覽器裡用 Canvas 完成，這個網頁沒有任何上傳功能；頁面載入後即使斷網也能轉檔。</p>
     </details>
     <details>
-      <summary>支援哪些格式轉 JPG？</summary>
-      <p>PNG 轉 JPG、WebP 轉 JPG、HEIC／HEIF 轉 JPG，以及 AVIF、GIF（取第一格）、BMP、SVG 都可以。</p>
+      <summary>支援哪些格式？</summary>
+      <p>輸入：PNG、JPG、WebP、HEIC／HEIF、AVIF、GIF（取第一格）、BMP、SVG。輸出：JPG 或 WebP，例如 PNG 轉 WebP、HEIC 轉 JPG、WebP 轉 JPG 都可以。</p>
     </details>
     <details>
       <summary>iPhone 的 HEIC 照片可以轉 JPG 嗎？</summary>
       <p>可以，任何瀏覽器都行。Safari 會直接解碼；Chrome、Edge、Firefox 等不支援 HEIC 的瀏覽器，會在需要時自動載入 HEIF 解碼器（約 800 KB，只下載一次），同樣在你的裝置上運算，照片不會上傳。</p>
     </details>
     <details>
-      <summary>JPG 品質要設多少？</summary>
-      <p>照片設 80–90 幾乎看不出差別，檔案卻能小很多；截圖或有文字的圖片建議 90 以上，避免字的邊緣出現雜點；只是要縮圖預覽的話 60–75 就夠。調整時下方會即時顯示檔案大小與壓縮比例。</p>
+      <summary>品質要設多少？</summary>
+      <p>照片設 80–90 幾乎看不出差別，檔案卻能小很多；截圖或有文字的圖片建議 90 以上，避免字的邊緣出現雜點；只是要縮圖預覽的話 60–75 就夠。WebP 設 100 會改用無損壓縮，畫質完全不變但檔案較大。調整時會即時顯示檔案大小與壓縮比例。</p>
     </details>
     <details>
       <summary>為什麼透明背景變成白色？</summary>
-      <p>JPG 格式不支援透明，透明的地方會填入「透明處填色」設定的顏色，預設是白色，可以自己改。</p>
+      <p>JPG 格式不支援透明，透明的地方會填入「透明處填色」設定的顏色，預設是白色，可以自己改。需要保留透明背景（例如 Logo、去背商品圖），請改選 WebP。</p>
     </details>
     <details>
-      <summary>複製出去的圖片是 JPG 嗎？</summary>
-      <p>瀏覽器的剪貼簿目前只接受 PNG 格式的圖片，所以複製的是「已經轉成 JPG 之後的畫面」（品質與尺寸都已套用），但貼上時的檔案格式會是 PNG。需要真正的 .jpg 檔案，請用「下載」或「分享」。</p>
+      <summary>複製出去的圖片是 JPG／WebP 嗎？</summary>
+      <p>瀏覽器的剪貼簿目前只接受 PNG 格式的圖片，所以複製的是「已經轉檔之後的畫面」（品質與尺寸都已套用），但貼上時的檔案格式會是 PNG。需要真正的 .jpg 或 .webp 檔案，請用「下載」或「分享」。</p>
+    </details>
+    <details>
+      <summary>iPhone 或 Safari 也能轉成 WebP 嗎？</summary>
+      <p>可以。Safari（以及 iPhone 上所有瀏覽器）本身無法把圖片存成 WebP，這時會自動載入內建的 WebP 編碼器（Google libwebp，約 160 KB，只下載一次），一樣在你的裝置上運算。</p>
     </details>
     <details>
       <summary>手機上怎麼用最方便？</summary>
@@ -516,7 +537,7 @@
     <div class="preview">
       <img alt="" title="點擊複製圖片">
       <div class="view" role="group" aria-label="預覽切換">
-        <button type="button" data-view="jpg" aria-pressed="true">JPG</button>
+        <button type="button" data-view="out" aria-pressed="true">JPG</button>
         <button type="button" data-view="orig" aria-pressed="false">原圖</button>
       </div>
       <span class="copy-hint">點圖複製</span>
@@ -546,7 +567,16 @@
     touchHint: $('#touchHint'),
     toast: $('#toast'),
     tpl: $('#cardTpl'),
+    formats: document.querySelectorAll('input[name=format]'),
+    bgField: $('#bgField'),
+    alphaNote: $('#alphaNote'),
+    settingsPanel: $('.settings'),
   };
+
+  // Auto-scrolled cards must clear the sticky settings panel, whose height wraps on phones.
+  new ResizeObserver(() => {
+    document.documentElement.style.setProperty('--settings-h', `${els.settingsPanel.offsetHeight}px`);
+  }).observe(els.settingsPanel);
 
   // iOS Safari refuses canvases above ~16.7 MP; elsewhere we allow much more.
   const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent) ||
@@ -554,10 +584,18 @@
   const SAFE_PIXELS = 16777216;
   const MAX_PIXELS = isIOS ? SAFE_PIXELS : 64000000;
 
-  // Clipboards only take PNG images today; use JPG directly if a browser ever allows it.
   const canCopyImage = !!(navigator.clipboard && navigator.clipboard.write && window.ClipboardItem);
-  const clipType = canCopyImage && typeof ClipboardItem.supports === 'function' && ClipboardItem.supports('image/jpeg')
-    ? 'image/jpeg' : 'image/png';
+
+  const FORMATS = {
+    jpeg: { mime: 'image/jpeg', ext: 'jpg', label: 'JPG' },
+    webp: { mime: 'image/webp', ext: 'webp', label: 'WebP' },
+  };
+  const WEBP_MAX_SIDE = 16383; // limit of the WebP format itself
+  // Safari (and so every iOS browser) can't encode WebP from a canvas and silently returns
+  // PNG instead; those browsers get the bundled libwebp encoder (vendor/webp-enc.js).
+  const nativeWebp = (() => {
+    try { return makeCanvas(1, 1).toDataURL('image/webp').startsWith('data:image/webp'); } catch { return false; }
+  })();
 
   const canShareFiles = (() => {
     try {
@@ -567,8 +605,9 @@
 
   // ---------- settings ----------
   const STORE_KEY = 'paste2jpg:settings';
-  const settings = { quality: 85, maxSide: 0, bg: '#ffffff' };
+  const settings = { format: 'jpeg', quality: 85, maxSide: 0, bg: '#ffffff' };
   try { Object.assign(settings, JSON.parse(localStorage.getItem(STORE_KEY)) || {}); } catch {}
+  if (!Object.hasOwn(FORMATS, settings.format)) settings.format = 'jpeg';
   settings.quality = clamp(Math.round(+settings.quality) || 85, 1, 100);
   if (!/^#[0-9a-f]{6}$/i.test(settings.bg)) settings.bg = '#ffffff';
 
@@ -578,7 +617,15 @@
   settings.maxSide = +els.maxSide.value;
   els.bg.value = settings.bg;
 
-  const settingsKey = () => `${settings.quality}|${settings.maxSide}|${settings.bg}`;
+  // WebP keeps transparency, so the fill colour only matters for JPG.
+  function syncFormatUI() {
+    for (const r of els.formats) r.checked = r.value === settings.format;
+    els.bgField.hidden = settings.format !== 'jpeg';
+    els.alphaNote.hidden = settings.format === 'jpeg';
+  }
+  syncFormatUI();
+
+  const settingsKey = () => `${settings.format}|${settings.quality}|${settings.maxSide}|${settings.bg}`;
   const saveSettings = () => { try { localStorage.setItem(STORE_KEY, JSON.stringify(settings)); } catch {} };
 
   // ---------- helpers ----------
@@ -643,11 +690,162 @@
     return text.slice(4, 8) === 'ftyp' && HEIF_BRANDS.has(text.slice(8, 12));
   }
 
-  let heifLib;
-  function loadHeifDecoder() {
-    heifLib = heifLib || import('./vendor/heic-to.js').catch((err) => { heifLib = null; throw err; });
-    return heifLib;
+  // Coded picture size from the first SPS in an hvcC box, after the conformance-window crop.
+  function hevcOutputSize(hvcC) {
+    let p = 22;
+    const arrays = hvcC[p++];
+    for (let a = 0; a < arrays; a++) {
+      const nalType = hvcC[p++] & 0x3f;
+      const count = (hvcC[p] << 8) | hvcC[p + 1];
+      p += 2;
+      for (let i = 0; i < count; i++) {
+        const len = (hvcC[p] << 8) | hvcC[p + 1];
+        p += 2;
+        if (nalType === 33) return spsOutputSize(hvcC.subarray(p + 2, p + len)); // skip NAL header
+        p += len;
+      }
+    }
+    return null;
   }
+
+  function spsOutputSize(nal) {
+    const rbsp = [];
+    for (let i = 0, zeros = 0; i < nal.length; i++) {
+      if (zeros >= 2 && nal[i] === 3) { zeros = 0; continue; } // emulation prevention byte
+      rbsp.push(nal[i]);
+      zeros = nal[i] === 0 ? zeros + 1 : 0;
+    }
+    let bit = 0;
+    const skip = (n) => { bit += n; };
+    const u = (n) => {
+      let v = 0;
+      while (n--) {
+        if (bit >= rbsp.length * 8) throw new Error('SPS overrun');
+        v = v * 2 + ((rbsp[bit >> 3] >> (7 - (bit & 7))) & 1);
+        bit++;
+      }
+      return v;
+    };
+    const ue = () => { let z = 0; while (!u(1)) z++; return 2 ** z - 1 + u(z); };
+
+    skip(4);
+    const maxSubLayers = u(3);
+    skip(1 + 96); // temporal_id_nesting + general profile_tier_level
+    const sub = [];
+    for (let i = 0; i < maxSubLayers; i++) sub.push([u(1), u(1)]);
+    if (maxSubLayers > 0) skip(2 * (8 - maxSubLayers));
+    for (const [profile, level] of sub) skip((profile ? 88 : 0) + (level ? 8 : 0));
+    ue(); // sps_seq_parameter_set_id
+    const chroma = ue();
+    if (chroma === 3) skip(1);
+    let w = ue(), h = ue();
+    if (u(1)) {
+      const subW = chroma === 1 || chroma === 2 ? 2 : 1;
+      const subH = chroma === 1 ? 2 : 1;
+      const [l, r, t, b] = [ue(), ue(), ue(), ue()];
+      w -= subW * (l + r);
+      h -= subH * (t + b);
+    }
+    return { w, h };
+  }
+
+  // Some cameras (seen on Sony) store HEVC frames padded to e.g. 1920×1088 with no conformance
+  // window while 'ispe' says 1920×1080. libheif rejects that ("Decoded image does not have the
+  // size signaled in the file"); Apple's decoder just crops. We do the same: patch 'ispe' in
+  // place to the coded size and return where the real picture sits after irot/imir, or null.
+  function patchPaddedHeif(bytes) {
+    try {
+      const dv = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
+      const boxes = (start, end) => {
+        const out = [];
+        for (let p = start; p + 8 <= end;) {
+          let size = dv.getUint32(p), hdr = 8;
+          if (size === 1) { size = Number(dv.getBigUint64(p + 8)); hdr = 16; }
+          else if (size === 0) size = end - p;
+          if (size < hdr || p + size > end) break;
+          out.push({ type: String.fromCharCode(...bytes.subarray(p + 4, p + 8)), body: p + hdr, end: p + size });
+          p += size;
+        }
+        return out;
+      };
+      const find = (list, type) => list.find((b) => b.type === type);
+
+      const meta = find(boxes(0, bytes.length), 'meta');
+      const metaKids = boxes(meta.body + 4, meta.end);
+      const pitm = find(metaKids, 'pitm');
+      const primary = bytes[pitm.body] === 0 ? dv.getUint16(pitm.body + 4) : dv.getUint32(pitm.body + 4);
+      const iprp = find(metaKids, 'iprp');
+      const iprpKids = boxes(iprp.body, iprp.end);
+      const ipco = find(iprpKids, 'ipco');
+      const ipma = find(iprpKids, 'ipma');
+      const props = boxes(ipco.body, ipco.end);
+
+      const version = bytes[ipma.body];
+      const wide = bytes[ipma.body + 3] & 1;
+      let p = ipma.body + 4;
+      const entries = dv.getUint32(p);
+      p += 4;
+      let result = null;
+      const patched = new Set();
+      for (let i = 0; i < entries; i++) {
+        const id = version < 1 ? dv.getUint16(p) : dv.getUint32(p);
+        p += version < 1 ? 2 : 4;
+        const linked = [];
+        for (let n = bytes[p++]; n > 0; n--) {
+          const idx = wide ? dv.getUint16(p) & 0x7fff : bytes[p] & 0x7f;
+          p += wide ? 2 : 1;
+          if (props[idx - 1]) linked.push(props[idx - 1]);
+        }
+        const hvcC = find(linked, 'hvcC');
+        const ispe = find(linked, 'ispe');
+        if (!hvcC || !ispe || find(linked, 'clap')) continue;
+        const coded = hevcOutputSize(bytes.subarray(hvcC.body, hvcC.end));
+        const w = dv.getUint32(ispe.body + 4), h = dv.getUint32(ispe.body + 8);
+        if (!coded || coded.w < w || coded.h < h || (coded.w === w && coded.h === h)) continue;
+        if (!patched.has(ispe)) {
+          dv.setUint32(ispe.body + 4, coded.w);
+          dv.setUint32(ispe.body + 8, coded.h);
+          patched.add(ispe);
+        }
+        if (id !== primary) continue;
+
+        // Padding is at the right/bottom of the coded frame; follow it through the transforms.
+        let W = coded.w, H = coded.h, r = { x: 0, y: 0, w, h };
+        for (const prop of linked) {
+          if (prop.type === 'irot') {
+            for (let k = bytes[prop.body] & 3; k > 0; k--) { // 90° anti-clockwise each
+              r = { x: r.y, y: W - r.x - r.w, w: r.h, h: r.w };
+              [W, H] = [H, W];
+            }
+          } else if (prop.type === 'imir') {
+            if (bytes[prop.body] & 1) r.y = H - r.y - r.h; // horizontal axis: flip top/bottom
+            else r.x = W - r.x - r.w; // vertical axis: flip left/right
+          }
+        }
+        result = { full: { w: W, h: H }, crop: r };
+      }
+      return result;
+    } catch {
+      return null; // unexpected layout: decode as-is and let libheif report it
+    }
+  }
+
+  // Vendor libraries load as classic <script>s, not import(): Chrome blocks module imports
+  // when index.html is opened straight from disk (file://).
+  const vendorLoads = {};
+  function loadVendor(src, globalName) {
+    vendorLoads[src] = vendorLoads[src] || new Promise((resolve, reject) => {
+      if (window[globalName]) { resolve(window[globalName]); return; }
+      const s = document.createElement('script');
+      s.src = src;
+      s.onload = () => (window[globalName] ? resolve(window[globalName]) : reject(new Error(`${globalName} missing`)));
+      s.onerror = () => { s.remove(); reject(new Error(`failed to load ${src}`)); };
+      document.head.append(s);
+    }).catch((err) => { delete vendorLoads[src]; throw err; });
+    return vendorLoads[src];
+  }
+
+  const userError = (message, cause) => Object.assign(new Error(message), { userMessage: message, cause });
 
   // Resolves to something drawImage() accepts: an <img>, or an ImageBitmap for HEIF.
   async function decodeSource(item) {
@@ -660,10 +858,27 @@
     URL.revokeObjectURL(item.srcUrl);
     item.srcUrl = null; // the browser can't show the original; made on demand (originalUrl)
     item.heif = true;
-    item.stats.textContent = heifLib ? '正在解碼 HEIF…' : '正在載入 HEIF 解碼器…';
-    const { heicTo } = await loadHeifDecoder();
+    item.stats.textContent = window.HeicTo ? '正在解碼 HEIF…' : '正在載入 HEIF 解碼器…';
+    let heicTo;
+    try {
+      heicTo = await loadVendor('vendor/heic-to.js', 'HeicTo');
+    } catch (err) {
+      throw userError('HEIF 解碼器載入失敗，請檢查網路後再試一次', err);
+    }
     item.stats.textContent = '正在解碼 HEIF…';
-    return heicTo({ blob: item.blob, type: 'bitmap' });
+    const bytes = new Uint8Array(await item.blob.arrayBuffer());
+    const fix = patchPaddedHeif(bytes);
+    let bitmap;
+    try {
+      bitmap = await heicTo({ blob: new Blob([bytes]), type: 'bitmap' });
+    } catch (err) {
+      throw userError(`無法解碼「${item.blob.name || 'HEIF 圖片'}」：檔案可能已損壞，或使用了不支援的 HEIF 編碼`, err);
+    }
+    if (!fix || bitmap.width !== fix.full.w || bitmap.height !== fix.full.h) return bitmap;
+    const { x, y, w, h } = fix.crop;
+    const cropped = await createImageBitmap(bitmap, x, y, w, h);
+    bitmap.close();
+    return cropped;
   }
 
   // URL for the 「原圖」 view. For HEIF in non-Safari browsers that's a lossless PNG of the decode.
@@ -690,10 +905,15 @@
   // Shrinking to 0×0 frees canvas memory right away (matters on iOS).
   const release = (c) => { c.width = c.height = 0; };
 
-  function encodeJpeg(img, w, h, opt, maxPixels) {
+  function encodeImage(img, w, h, opt, maxPixels) {
+    const webp = opt.format === 'webp';
     let scale = 1;
     let capped = false;
     if (opt.maxSide && Math.max(w, h) > opt.maxSide) scale = opt.maxSide / Math.max(w, h);
+    if (webp && Math.max(w, h) * scale > WEBP_MAX_SIDE) {
+      scale = WEBP_MAX_SIDE / Math.max(w, h);
+      capped = true;
+    }
     if (w * h * scale * scale > maxPixels) {
       scale = Math.sqrt(maxPixels * 0.999 / (w * h));
       capped = true;
@@ -714,39 +934,65 @@
     }
 
     const out = makeCanvas(tw, th);
-    const ctx = out.getContext('2d', { alpha: false });
+    const ctx = out.getContext('2d', webp ? undefined : { alpha: false });
     if (!ctx) return Promise.reject(new Error('no 2d context'));
-    ctx.fillStyle = opt.bg; // JPG has no alpha, so transparent areas get this colour
-    ctx.fillRect(0, 0, tw, th);
+    if (!webp) {
+      ctx.fillStyle = opt.bg; // JPG has no alpha, so transparent areas get this colour
+      ctx.fillRect(0, 0, tw, th);
+    }
     ctx.imageSmoothingQuality = 'high';
     ctx.drawImage(cur, 0, 0, tw, th);
     if (cur !== img) release(cur);
 
+    if (webp && !nativeWebp) {
+      const pixels = ctx.getImageData(0, 0, tw, th);
+      release(out);
+      return loadVendor('vendor/webp-enc.js', 'WebpEncoder')
+        .catch((err) => { throw userError('WebP 編碼器載入失敗，請檢查網路後再試一次', err); })
+        // Quality 100 means lossless, matching what Chrome's canvas encoder does.
+        .then((enc) => enc.encode(pixels, { quality: opt.quality, lossless: opt.quality === 100 }))
+        .then((buf) => ({ blob: new Blob([buf], { type: 'image/webp' }), w: tw, h: th, capped }));
+    }
+
+    const mime = FORMATS[opt.format].mime;
     return new Promise((resolve, reject) => {
       out.toBlob((blob) => {
         release(out);
-        blob ? resolve({ blob, w: tw, h: th, capped }) : reject(new Error('toBlob failed'));
-      }, 'image/jpeg', opt.quality / 100);
+        // Browsers fall back to PNG for types they can't encode; treat that as a failure.
+        blob && blob.type === mime ? resolve({ blob, w: tw, h: th, capped }) : reject(new Error('toBlob failed'));
+      }, mime, opt.quality / 100);
     });
   }
 
   // ---------- items ----------
   const items = [];
 
-  function uniqueName(base) {
-    const taken = new Set(items.map((i) => i.name));
-    let name = `${base}.jpg`;
-    for (let n = 2; taken.has(name); n++) name = `${base}-${n}.jpg`;
+  // Base names (without extension) stay unique so switching format never collides.
+  function uniqueBase(base) {
+    const taken = new Set(items.map((i) => i.base));
+    let name = base;
+    for (let n = 2; taken.has(name); n++) name = `${base}-${n}`;
     return name;
   }
 
-  function createItem(blob, name) {
+  function setOutputFormat(item, format) {
+    item.format = format;
+    item.name = `${item.base}.${FORMATS[format].ext}`;
+    item.nameEl.textContent = item.name;
+    item.nameEl.title = item.name;
+    item.imgEl.alt = item.name;
+    item.outBtn.textContent = FORMATS[format].label;
+  }
+
+  function createItem(blob, base) {
     const el = els.tpl.content.firstElementChild.cloneNode(true);
     const q = (s) => el.querySelector(s);
     const item = {
-      blob, name, el,
+      blob, base, el,
       origSize: blob.size,
+      nameEl: q('.name'),
       imgEl: q('img'),
+      outBtn: q('[data-view=out]'),
       stats: q('.stats'),
       dl: q('.dl'),
       copy: q('.copy'),
@@ -754,21 +1000,19 @@
       v: 0,
       showOrig: false,
     };
-    q('.name').textContent = name;
-    q('.name').title = name;
-    item.imgEl.alt = name;
+    setOutputFormat(item, settings.format);
     item.share.hidden = !canShareFiles;
     item.copy.hidden = !canCopyImage;
     q('.copy-hint').hidden = !canCopyImage;
 
     q('.view').addEventListener('click', async (e) => {
       const btn = e.target.closest('button');
-      if (!btn || !item.jpgUrl) return;
+      if (!btn || !item.outUrl) return;
       const orig = btn.dataset.view === 'orig';
       item.showOrig = orig;
       for (const b of q('.view').children) b.setAttribute('aria-pressed', String(b === btn));
       el.classList.toggle('orig', orig);
-      let url = item.jpgUrl;
+      let url = item.outUrl;
       if (orig) {
         try { url = await originalUrl(item); } catch { toast('無法顯示原圖'); return; }
       }
@@ -779,9 +1023,9 @@
     item.copy.addEventListener('click', () => copyItem(item));
 
     item.share.addEventListener('click', async () => {
-      if (!item.jpg) return;
+      if (!item.out) return;
       try {
-        await navigator.share({ files: [new File([item.jpg], item.name, { type: 'image/jpeg' })] });
+        await navigator.share({ files: [new File([item.out], item.name, { type: item.out.type })] });
       } catch (err) {
         if (err.name !== 'AbortError') toast('分享失敗，請改用下載');
       }
@@ -791,12 +1035,12 @@
     return item;
   }
 
-  // Re-encodes the finished JPG's pixels as PNG for the clipboard (cached per JPG).
-  function jpgAsPng(item) {
-    const jpg = item.jpg;
-    if (item.png && item.pngOf === jpg) return Promise.resolve(item.png);
+  // Re-encodes the finished output's pixels as PNG for the clipboard (cached per output).
+  function outputAsPng(item) {
+    const out = item.out;
+    if (item.png && item.pngOf === out) return Promise.resolve(item.png);
     return (async () => {
-      const src = window.createImageBitmap ? await createImageBitmap(jpg) : await loadImage(item.jpgUrl);
+      const src = window.createImageBitmap ? await createImageBitmap(out) : await loadImage(item.outUrl);
       const c = makeCanvas(src.width, src.height);
       c.getContext('2d').drawImage(src, 0, 0);
       if (src.close) src.close();
@@ -805,19 +1049,22 @@
         b ? resolve(b) : reject(new Error('toBlob failed'));
       }, 'image/png'));
       item.png = png;
-      item.pngOf = jpg;
+      item.pngOf = out;
       return png;
     })();
   }
 
   let copyTimer;
   function copyItem(item) {
-    if (!item.jpg) return;
+    if (!item.out) return;
     if (!canCopyImage) { toast('這個瀏覽器不支援複製圖片，請改用下載或長按圖片'); return; }
     if (item.el.classList.contains('busy')) { toast('還在轉檔，請稍候再複製'); return; }
+    // Clipboards only take PNG images today; copy the real file if a browser ever allows it.
+    const direct = typeof ClipboardItem.supports === 'function' && ClipboardItem.supports(item.out.type);
+    const type = direct ? item.out.type : 'image/png';
     // Must call write() synchronously inside the click (Safari), so pass a promise.
-    const data = clipType === 'image/jpeg' ? item.jpg : jpgAsPng(item);
-    navigator.clipboard.write([new ClipboardItem({ [clipType]: data })]).then(() => {
+    const data = direct ? item.out : outputAsPng(item);
+    navigator.clipboard.write([new ClipboardItem({ [type]: data })]).then(() => {
       toast('已複製圖片，可以直接貼上');
       const label = item.copy.querySelector('span');
       for (const i of items) i.copy.querySelector('span').textContent = '複製';
@@ -833,7 +1080,7 @@
     item.removed = true;
     if (item.img && item.img.close) item.img.close(); // ImageBitmap from the HEIF decoder
     if (item.srcUrl) URL.revokeObjectURL(item.srcUrl);
-    if (item.jpgUrl) URL.revokeObjectURL(item.jpgUrl);
+    if (item.outUrl) URL.revokeObjectURL(item.outUrl);
     item.el.remove();
     const i = items.indexOf(item);
     if (i >= 0) items.splice(i, 1);
@@ -848,17 +1095,17 @@
 
     let label = typeLabel(item.blob);
     if (item.heif && label === '原檔') label = 'HEIF';
-    const size = span(`${label} ${fmtBytes(item.origSize)} → `);
+    const size = span(`${label} ${fmtBytes(item.origSize)} → ${FORMATS[item.format].label} `);
     const b = document.createElement('b');
-    b.textContent = fmtBytes(item.jpg.size);
+    b.textContent = fmtBytes(item.out.size);
     size.append(b);
     s.append(size);
 
     if (item.origSize > 0) {
-      const pct = Math.round((item.jpg.size / item.origSize - 1) * 100);
+      const pct = Math.round((item.out.size / item.origSize - 1) * 100);
       s.append(span(pct < 0 ? `−${-pct}%` : pct > 0 ? `+${pct}%` : '±0%', `delta ${pct <= 0 ? 'good' : 'bad'}`));
     }
-    if (item.capped) s.append(span('已依瀏覽器上限縮小'));
+    if (item.capped) s.append(span('已依格式或瀏覽器上限縮小'));
   }
 
   async function encode(item) {
@@ -867,22 +1114,24 @@
     const opt = { ...settings };
     item.el.classList.add('busy');
 
-    let res;
+    let res, failure;
     try {
-      res = await encodeJpeg(item.img, item.w, item.h, opt, MAX_PIXELS);
-    } catch {
+      res = await encodeImage(item.img, item.w, item.h, opt, MAX_PIXELS);
+    } catch (err) {
+      failure = err;
       // Some browsers silently fail on huge canvases; retry at the conservative limit.
-      if (MAX_PIXELS > SAFE_PIXELS && item.w * item.h > SAFE_PIXELS) {
-        try { res = await encodeJpeg(item.img, item.w, item.h, opt, SAFE_PIXELS); } catch {}
+      if (!err.userMessage && MAX_PIXELS > SAFE_PIXELS && item.w * item.h > SAFE_PIXELS) {
+        try { res = await encodeImage(item.img, item.w, item.h, opt, SAFE_PIXELS); } catch (e) { failure = e; }
       }
     }
     // A newer encode or a settings change has superseded this one.
     if (item.removed || v !== item.v || key !== settingsKey()) return;
 
     if (!res) {
+      console.warn('encode failed', item.name, failure);
       item.el.classList.remove('busy');
       item.el.classList.add('error');
-      item.stats.textContent = '轉檔失敗：圖片可能太大，試試縮小「最長邊」';
+      item.stats.textContent = (failure && failure.userMessage) || '轉檔失敗：圖片可能太大，試試縮小「最長邊」';
       return;
     }
 
@@ -895,12 +1144,13 @@
       if (item.removed || v !== item.v) { URL.revokeObjectURL(url); return; }
       item.imgEl.src = url;
     }
-    if (item.jpgUrl) URL.revokeObjectURL(item.jpgUrl);
-    item.jpgUrl = url;
-    item.jpg = res.blob;
+    if (item.outUrl) URL.revokeObjectURL(item.outUrl);
+    item.outUrl = url;
+    item.out = res.blob;
     item.outW = res.w;
     item.outH = res.h;
     item.capped = res.capped;
+    setOutputFormat(item, opt.format);
     item.dl.href = url;
     item.dl.download = item.name;
     item.el.classList.remove('busy', 'error');
@@ -918,7 +1168,7 @@
       const base = source === 'paste' || !blob.name
         ? `paste-${stamp}${blobs.length > 1 ? `-${i + 1}` : ''}`
         : blob.name.replace(/\.[^./]+$/, '') || 'image';
-      const item = createItem(blob, uniqueName(base));
+      const item = createItem(blob, uniqueBase(base));
       els.results.insertBefore(item.el, anchor); // newest batch on top, in original order
       items.splice(i, 0, item);
       return item;
@@ -932,8 +1182,9 @@
         item.img = await decodeSource(item);
         item.w = item.img.naturalWidth || item.img.width || 1024;
         item.h = item.img.naturalHeight || item.img.height || 1024;
-      } catch {
-        toast(`無法開啟「${item.blob.name || '貼上的圖片'}」：此瀏覽器不支援這個格式`);
+      } catch (err) {
+        console.warn('decode failed', item.blob.name, err && (err.cause || err));
+        toast(err && err.userMessage || `無法開啟「${item.blob.name || '貼上的圖片'}」：此瀏覽器不支援這個格式`);
         removeItem(item);
         continue;
       }
@@ -954,12 +1205,12 @@
     els.bar.hidden = !items.length;
     els.dlAll.hidden = items.length < 2;
     els.touchHint.hidden = !items.length;
-    const done = items.filter((i) => i.jpg);
+    const done = items.filter((i) => i.out);
     let text = `${items.length} 張`;
     if (done.length) {
       const orig = done.reduce((s, i) => s + i.origSize, 0);
-      const jpg = done.reduce((s, i) => s + i.jpg.size, 0);
-      text += ` · ${fmtBytes(orig)} → ${fmtBytes(jpg)}`;
+      const out = done.reduce((s, i) => s + i.out.size, 0);
+      text += ` · ${fmtBytes(orig)} → ${fmtBytes(out)}`;
     }
     els.summary.textContent = text;
   }
@@ -1005,6 +1256,14 @@
     settings.bg = els.bg.value;
     settingsChanged(150);
   });
+  for (const radio of els.formats) {
+    radio.addEventListener('change', () => {
+      if (!radio.checked) return;
+      settings.format = radio.value;
+      syncFormatUI();
+      settingsChanged(0);
+    });
+  }
 
   // ---------- input: paste ----------
   function imageFiles(dt) {
@@ -1133,9 +1392,9 @@
   // ---------- bulk actions ----------
   els.dlAll.addEventListener('click', async () => {
     for (const item of [...items]) {
-      if (!item.jpgUrl) continue;
+      if (!item.outUrl) continue;
       const a = document.createElement('a');
-      a.href = item.jpgUrl;
+      a.href = item.outUrl;
       a.download = item.name;
       document.body.append(a);
       a.click();
