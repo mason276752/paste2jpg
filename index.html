@@ -448,7 +448,6 @@
 
   <div class="bar" id="bar" hidden>
     <span class="grow" id="summary"></span>
-    <button type="button" class="btn" id="sendZip" hidden title="打包成 ZIP，傳到簡繁轉換工具（ziptotaiwanzip）">傳到簡繁轉換</button>
     <button type="button" class="btn" id="sendEditor" hidden title="打包成 ZIP，在 ZIP 編輯器（zipeditor）開啟">傳到 ZIP 編輯器</button>
     <button type="button" class="btn" id="dlAll" hidden>全部下載</button>
     <button type="button" class="btn" id="clearAll">全部清除</button>
@@ -564,7 +563,6 @@
     bar: $('#bar'),
     summary: $('#summary'),
     dlAll: $('#dlAll'),
-    sendZip: $('#sendZip'),
     sendEditor: $('#sendEditor'),
     clearAll: $('#clearAll'),
     results: $('#results'),
@@ -1214,7 +1212,7 @@
     els.dlAll.hidden = items.length < 2;
     els.touchHint.hidden = !items.length;
     const done = items.filter((i) => i.out);
-    els.sendZip.hidden = els.sendEditor.hidden = !canTalk || !done.length;
+    els.sendEditor.hidden = !canTalk || !done.length;
     let text = `${items.length} 張`;
     if (done.length) {
       const orig = done.reduce((s, i) => s + i.origSize, 0);
@@ -1481,7 +1479,6 @@
   // away. Deliveries ({type:'zip' | 'files', to, id, …}) are addressed to one tab so two open
   // copies don't both act on them, and that tab acks with {type:'received', id}.
   const TOOLS = {
-    ziptotaiwanzip: { url: '../ziptotaiwanzip/', label: '簡繁轉換工具' },
     zipeditor: { url: '../zipeditor/', label: 'ZIP 編輯器' },
   };
   const newId = () => `${Date.now()}-${Math.random().toString(36).slice(2)}`;
@@ -1570,7 +1567,6 @@
       }
     });
   }
-  bindSend(els.sendZip, 'ziptotaiwanzip');
   bindSend(els.sendEditor, 'zipeditor');
 
   // Other tools (the ZIP editor) can hand us images on our own channel: {type:'files', files}.
