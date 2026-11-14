@@ -448,6 +448,7 @@
 
   <div class="bar" id="bar" hidden>
     <span class="grow" id="summary"></span>
+    <button type="button" class="btn" id="sendZip" hidden title="打包成 ZIP，傳到簡繁轉換工具（ziptotaiwanzip）">傳到簡繁轉換</button>
     <button type="button" class="btn" id="dlAll" hidden>全部下載</button>
     <button type="button" class="btn" id="clearAll">全部清除</button>
   </div>
@@ -562,6 +563,7 @@
     bar: $('#bar'),
     summary: $('#summary'),
     dlAll: $('#dlAll'),
+    sendZip: $('#sendZip'),
     clearAll: $('#clearAll'),
     results: $('#results'),
     touchHint: $('#touchHint'),
@@ -601,6 +603,12 @@
     try {
       return !!navigator.canShare && navigator.canShare({ files: [new File([''], 'x.jpg', { type: 'image/jpeg' })] });
     } catch { return false; }
+  })();
+
+  // paste2jpg and ziptotaiwanzip both live on mason276752.github.io, so they share an origin
+  // and can hand over files through a BroadcastChannel (see "send to ziptotaiwanzip").
+  const zipChannel = (() => {
+    try { return new BroadcastChannel('ziptotaiwanzip'); } catch { return null; }
   })();
 
   // ---------- settings ----------
@@ -1206,6 +1214,7 @@
     els.dlAll.hidden = items.length < 2;
     els.touchHint.hidden = !items.length;
     const done = items.filter((i) => i.out);
+    els.sendZip.hidden = !zipChannel || !done.length;
     let text = `${items.length} 張`;
     if (done.length) {
       const orig = done.reduce((s, i) => s + i.origSize, 0);
@@ -1403,6 +1412,137 @@
     }
   });
   els.clearAll.addEventListener('click', () => [...items].forEach(removeItem));
+
+  // ---------- send to ziptotaiwanzip ----------
+  // Store-only zip: JPG/WebP are already compressed, so deflate would only cost time.
+  const CRC_TABLE = (() => {
+    const t = new Uint32Array(256);
+    for (let n = 0; n < 256; n++) {
+      let c = n;
+      for (let k = 0; k < 8; k++) c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1;
+      t[n] = c >>> 0;
+    }
+    return t;
+  })();
+
+  function crc32(bytes) {
+    let c = 0xffffffff;
+    for (let i = 0; i < bytes.length; i++) c = CRC_TABLE[(c ^ bytes[i]) & 0xff] ^ (c >>> 8);
+    return (c ^ 0xffffffff) >>> 0;
+  }
+
+  async function makeZip(list) {
+    const enc = new TextEncoder();
+    const d = new Date();
+    const time = (d.getHours() << 11) | (d.getMinutes() << 5) | (d.getSeconds() >> 1);
+    const date = ((d.getFullYear() - 1980) << 9) | ((d.getMonth() + 1) << 5) | d.getDate();
+    const parts = [], central = [];
+    let offset = 0;
+    for (const item of list) {
+      const blob = item.out;
+      const name = enc.encode(item.name);
+      const crc = crc32(new Uint8Array(await blob.arrayBuffer()));
+      // Local header and central directory entry share these fields, just shifted.
+      const common = (dv, at) => {
+        dv.setUint16(at, 20, true); // version needed: 2.0
+        dv.setUint16(at + 2, 0x0800, true); // names are UTF-8
+        dv.setUint16(at + 4, 0, true); // stored
+        dv.setUint16(at + 6, time, true);
+        dv.setUint16(at + 8, date, true);
+        dv.setUint32(at + 10, crc, true);
+        dv.setUint32(at + 14, blob.size, true);
+        dv.setUint32(at + 18, blob.size, true);
+        dv.setUint16(at + 22, name.length, true);
+      };
+      const local = new DataView(new ArrayBuffer(30));
+      local.setUint32(0, 0x04034b50, true);
+      common(local, 4);
+      const entry = new DataView(new ArrayBuffer(46));
+      entry.setUint32(0, 0x02014b50, true);
+      entry.setUint16(4, 20, true); // version made by
+      common(entry, 6);
+      entry.setUint32(42, offset, true);
+      parts.push(local, name, blob);
+      central.push(entry, name);
+      offset += 30 + name.length + blob.size;
+    }
+    const dirSize = central.reduce((s, p) => s + p.byteLength, 0);
+    const end = new DataView(new ArrayBuffer(22));
+    end.setUint32(0, 0x06054b50, true);
+    end.setUint16(8, list.length, true);
+    end.setUint16(10, list.length, true);
+    end.setUint32(12, dirSize, true);
+    end.setUint32(16, offset, true);
+    return new Blob([...parts, ...central, end], { type: 'application/zip' });
+  }
+
+  // Each ziptotaiwanzip tab announces {type:'ready', id} on load and in reply to our
+  // {type:'ping'}, and {type:'bye', id} when it goes away. The zip is addressed to one tab so
+  // two open copies don't both convert it; that tab acks with {type:'received'}.
+  const ZIP_TOOL_URL = '../ziptotaiwanzip/';
+  const receivers = new Set(); // tab ids, most recently announced last
+  let sending = false;
+
+  // Resolves with the first channel message that passes test, or null after ms.
+  function nextMessage(test, ms) {
+    return new Promise((resolve) => {
+      const finish = (m) => {
+        clearTimeout(timer);
+        zipChannel.removeEventListener('message', onMessage);
+        resolve(m);
+      };
+      const onMessage = (e) => { if (e.data && test(e.data)) finish(e.data); };
+      const timer = setTimeout(() => finish(null), ms);
+      zipChannel.addEventListener('message', onMessage);
+    });
+  }
+
+  if (zipChannel) {
+    zipChannel.addEventListener('message', (e) => {
+      const m = e.data || {};
+      if (m.type === 'ready') { receivers.delete(m.id); receivers.add(m.id); }
+      else if (m.type === 'bye') receivers.delete(m.id);
+    });
+    zipChannel.postMessage({ type: 'ping' });
+  }
+
+  els.sendZip.addEventListener('click', async () => {
+    const done = items.filter((i) => i.out);
+    if (sending || !done.length) return;
+    if (items.some((i) => i.el.classList.contains('busy'))) { toast('還在轉檔，請稍候再傳送'); return; }
+    // Popup blockers only allow window.open() synchronously inside the click.
+    if (!receivers.size && !window.open(ZIP_TOOL_URL, 'ziptotaiwanzip')) {
+      toast('瀏覽器擋下了新分頁，請先開啟簡繁轉換工具再傳送');
+      return;
+    }
+    sending = true;
+    els.sendZip.textContent = '傳送中…';
+    try {
+      const file = new File([await makeZip(done)], `paste2jpg-${timeStamp()}.zip`, { type: 'application/zip' });
+      // A tab we just opened may already have announced itself while we were zipping.
+      let to = [...receivers].pop();
+      if (!to) {
+        const ready = await nextMessage((m) => m.type === 'ready', 30000);
+        to = ready && ready.id;
+      }
+      if (!to) { toast('簡繁轉換工具沒有回應，請稍後再試一次'); return; }
+      const id = `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+      const ack = nextMessage((m) => m.type === 'received' && m.id === id, 5000);
+      zipChannel.postMessage({ type: 'zip', to, id, file });
+      if (await ack) {
+        toast(`已打包 ${done.length} 張圖片，傳到簡繁轉換工具`);
+      } else {
+        receivers.delete(to); // closed without 'bye'; the next click opens a fresh tab
+        toast('簡繁轉換工具沒有回應，請再按一次');
+      }
+    } catch (err) {
+      console.warn('send zip failed', err);
+      toast('打包失敗，請改用下載');
+    } finally {
+      sending = false;
+      els.sendZip.textContent = '傳到簡繁轉換';
+    }
+  });
 })();
 </script>
 </body>
