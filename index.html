@@ -990,11 +990,14 @@
     item.outBtn.textContent = FORMATS[format].label;
   }
 
-  function createItem(blob, base) {
+  // origin: where the image came from (another tool), so each result goes back there; see returnResult.
+  function createItem(blob, base, origin = null) {
     const el = els.tpl.content.firstElementChild.cloneNode(true);
     const q = (s) => el.querySelector(s);
     const item = {
-      blob, base, el,
+      blob, base, el, origin,
+      id: `${Date.now()}-${Math.random().toString(36).slice(2)}`,
+      returned: '', // '' | 'ok' | 'failed'
       origSize: blob.size,
       nameEl: q('.name'),
       imgEl: q('img'),
@@ -1112,6 +1115,10 @@
       s.append(span(pct < 0 ? `−${-pct}%` : pct > 0 ? `+${pct}%` : '±0%', `delta ${pct <= 0 ? 'good' : 'bad'}`));
     }
     if (item.capped) s.append(span('已依格式或瀏覽器上限縮小'));
+    if (item.origin && item.returned) {
+      const label = (TOOLS[item.origin.app] || {}).label || item.origin.app;
+      s.append(span(item.returned === 'ok' ? `已傳回${label}` : `${label}已關閉，沒傳回`));
+    }
   }
 
   async function encode(item) {
@@ -1162,10 +1169,14 @@
     item.el.classList.remove('busy', 'error');
     renderStats(item);
     updateBar();
+    if (item.origin) returnResult(item);
   }
 
-  async function addBlobs(list, source) {
-    const blobs = list.filter((b) => !b.type || b.type.startsWith('image/') || HEIF_EXT.test(b.name || ''));
+  // origins[i]: where list[i] came from, if another tool sent it.
+  async function addBlobs(list, source, origins = []) {
+    const picked = list.map((b, i) => [b, origins[i] || null])
+      .filter(([b]) => !b.type || b.type.startsWith('image/') || HEIF_EXT.test(b.name || ''));
+    const blobs = picked.map(([b]) => b);
     if (!blobs.length) { toast('沒有可用的圖片'); return; }
 
     const stamp = timeStamp();
@@ -1174,7 +1185,7 @@
       const base = source === 'paste' || !blob.name
         ? `paste-${stamp}${blobs.length > 1 ? `-${i + 1}` : ''}`
         : blob.name.replace(/\.[^./]+$/, '') || 'image';
-      const item = createItem(blob, uniqueBase(base));
+      const item = createItem(blob, uniqueBase(base), picked[i][1]);
       els.results.insertBefore(item.el, anchor); // newest batch on top, in original order
       items.splice(i, 0, item);
       return item;
@@ -1569,7 +1580,53 @@
   }
   bindSend(els.sendEditor, 'zipeditor');
 
-  // Other tools (the ZIP editor) can hand us images on our own channel: {type:'files', files}.
+  // An image another tool sent comes with its origin {app, to, key}. Every result for it (the first
+  // conversion, and again after each settings change) goes back as {type:'update', key, output,
+  // file}; `output` stays the same, so the newer version replaces the older one there.
+  // Debounced and throttled per image, like the other tools' bridge.js: the first change after a
+  // quiet spell goes at once; after that the latest version goes once changes stop for
+  // RESULT_QUIET ms, and at least every RESULT_MAX_WAIT ms while they keep coming (quality slider).
+  const RESULT_QUIET = 800;
+  const RESULT_MAX_WAIT = 3000;
+  const outgoing = {}; // item.id → { item, timer, since, last }
+  const resultChannels = {};
+
+  function returnResult(item) {
+    const r = outgoing[item.id] = outgoing[item.id] || { since: 0, last: 0 };
+    r.item = item;
+    clearTimeout(r.timer);
+    const now = Date.now();
+    if (!r.since && now - r.last >= RESULT_QUIET) {
+      flushResult(r);
+    } else {
+      r.since = r.since || now;
+      r.timer = setTimeout(() => flushResult(r), Math.min(RESULT_QUIET, r.since + RESULT_MAX_WAIT - now));
+    }
+  }
+
+  async function flushResult(r) {
+    clearTimeout(r.timer);
+    r.since = 0;
+    r.last = Date.now();
+    const item = r.item;
+    if (item.removed || !item.out) return;
+    const { app, to, key } = item.origin;
+    const channel = (peers[app] && peers[app].channel) || (resultChannels[app] = resultChannels[app] || openChannel(app));
+    if (!channel) return;
+    const out = item.out;
+    const id = newId();
+    const ack = nextMessage(channel, (m) => m.type === 'received' && m.id === id, 5000);
+    channel.postMessage({
+      type: 'update', to, id, key, output: item.id, from: 'paste2jpg',
+      file: new File([out], item.name, { type: out.type }),
+    });
+    const ok = !!(await ack);
+    if (item.out !== out || item.removed) return;
+    item.returned = ok ? 'ok' : 'failed';
+    renderStats(item);
+  }
+
+  // Other tools (the ZIP editor) can hand us images on our own channel: {type:'files', files, origins?}.
   const inbox = openChannel('paste2jpg');
   if (inbox) {
     const tabId = newId();
@@ -1580,8 +1637,10 @@
         announce();
       } else if (m.type === 'files' && m.to === tabId && Array.isArray(m.files)) {
         inbox.postMessage({ type: 'received', id: m.id });
-        toast(`收到 ${m.files.length} 張圖片`);
-        addBlobs(m.files, 'file');
+        const back = Array.isArray(m.origins) && m.origins.find(Boolean);
+        const label = back && ((TOOLS[back.app] || {}).label || back.app);
+        toast(`收到 ${m.files.length} 張圖片${back ? `，轉好會自動傳回${label}` : ''}`);
+        addBlobs(m.files, 'file', Array.isArray(m.origins) ? m.origins : []);
       }
     });
     window.addEventListener('pagehide', () => inbox.postMessage({ type: 'bye', id: tabId }));
