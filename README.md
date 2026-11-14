@@ -14,7 +14,7 @@
 - **最長邊**：可縮小尺寸（只縮不放大），大幅縮小時分段縮放以保持清晰
 - **透明處填色**：輸出 JPG 時透明區域要填的顏色（預設白色）；WebP 會保留透明
 - **輸出**：點圖片或「複製」直接複製；也可下載、分享（手機可存相簿或傳到 App）、切換原圖比較
-- **傳到簡繁轉換**：把轉好的圖片打包成 ZIP，透過 BroadcastChannel 傳給同網域的 [ziptotaiwanzip](https://mason276752.github.io/ziptotaiwanzip/) 轉換檔名；沒開的話會自動開新分頁
+- **傳給其他工具**：把轉好的圖片打包成 ZIP，透過 BroadcastChannel 傳給同網域的 [簡繁轉換工具](https://mason276752.github.io/ziptotaiwanzip/) 或 [ZIP 編輯器](https://mason276752.github.io/zipeditor/)；沒開的話會自動開新分頁。ZIP 編輯器也可以把裡面的圖片傳過來轉檔
 - 設定會記在瀏覽器（localStorage），下次打開沿用
 
 > 瀏覽器剪貼簿目前只接受 PNG 圖片，所以「複製」出去的是轉檔後的畫面（品質與尺寸都已套用），貼上時格式為 PNG；需要真正的 .jpg／.webp 檔請用下載或分享。

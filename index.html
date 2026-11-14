@@ -449,6 +449,7 @@
   <div class="bar" id="bar" hidden>
     <span class="grow" id="summary"></span>
     <button type="button" class="btn" id="sendZip" hidden title="打包成 ZIP，傳到簡繁轉換工具（ziptotaiwanzip）">傳到簡繁轉換</button>
+    <button type="button" class="btn" id="sendEditor" hidden title="打包成 ZIP，在 ZIP 編輯器（zipeditor）開啟">傳到 ZIP 編輯器</button>
     <button type="button" class="btn" id="dlAll" hidden>全部下載</button>
     <button type="button" class="btn" id="clearAll">全部清除</button>
   </div>
@@ -564,6 +565,7 @@
     summary: $('#summary'),
     dlAll: $('#dlAll'),
     sendZip: $('#sendZip'),
+    sendEditor: $('#sendEditor'),
     clearAll: $('#clearAll'),
     results: $('#results'),
     touchHint: $('#touchHint'),
@@ -605,11 +607,9 @@
     } catch { return false; }
   })();
 
-  // paste2jpg and ziptotaiwanzip both live on mason276752.github.io, so they share an origin
-  // and can hand over files through a BroadcastChannel (see "send to ziptotaiwanzip").
-  const zipChannel = (() => {
-    try { return new BroadcastChannel('ziptotaiwanzip'); } catch { return null; }
-  })();
+  // The sibling tools on mason276752.github.io share this origin and hand files to each other
+  // over BroadcastChannels (see "other tools").
+  const canTalk = typeof BroadcastChannel === 'function';
 
   // ---------- settings ----------
   const STORE_KEY = 'paste2jpg:settings';
@@ -1214,7 +1214,7 @@
     els.dlAll.hidden = items.length < 2;
     els.touchHint.hidden = !items.length;
     const done = items.filter((i) => i.out);
-    els.sendZip.hidden = !zipChannel || !done.length;
+    els.sendZip.hidden = els.sendEditor.hidden = !canTalk || !done.length;
     let text = `${items.length} 張`;
     if (done.length) {
       const orig = done.reduce((s, i) => s + i.origSize, 0);
@@ -1413,7 +1413,7 @@
   });
   els.clearAll.addEventListener('click', () => [...items].forEach(removeItem));
 
-  // ---------- send to ziptotaiwanzip ----------
+  // ---------- other tools ----------
   // Store-only zip: JPG/WebP are already compressed, so deflate would only cost time.
   const CRC_TABLE = (() => {
     const t = new Uint32Array(256);
@@ -1476,73 +1476,122 @@
     return new Blob([...parts, ...central, end], { type: 'application/zip' });
   }
 
-  // Each ziptotaiwanzip tab announces {type:'ready', id} on load and in reply to our
-  // {type:'ping'}, and {type:'bye', id} when it goes away. The zip is addressed to one tab so
-  // two open copies don't both convert it; that tab acks with {type:'received'}.
-  const ZIP_TOOL_URL = '../ziptotaiwanzip/';
-  const receivers = new Set(); // tab ids, most recently announced last
-  let sending = false;
+  // Each tool listens on a BroadcastChannel named after itself. A tab announces
+  // {type:'ready', id} on load and in reply to {type:'ping'}, and {type:'bye', id} when it goes
+  // away. Deliveries ({type:'zip' | 'files', to, id, …}) are addressed to one tab so two open
+  // copies don't both act on them, and that tab acks with {type:'received', id}.
+  const TOOLS = {
+    ziptotaiwanzip: { url: '../ziptotaiwanzip/', label: '簡繁轉換工具' },
+    zipeditor: { url: '../zipeditor/', label: 'ZIP 編輯器' },
+  };
+  const newId = () => `${Date.now()}-${Math.random().toString(36).slice(2)}`;
 
-  // Resolves with the first channel message that passes test, or null after ms.
-  function nextMessage(test, ms) {
+  function openChannel(name) {
+    try { return new BroadcastChannel(name); } catch { return null; }
+  }
+
+  const peers = {};
+  for (const name of Object.keys(TOOLS)) {
+    const channel = openChannel(name);
+    if (!channel) continue;
+    const tabs = new Set(); // tab ids, most recently announced last
+    channel.addEventListener('message', (e) => {
+      const m = e.data || {};
+      if (m.type === 'ready') { tabs.delete(m.id); tabs.add(m.id); }
+      else if (m.type === 'bye') tabs.delete(m.id);
+    });
+    channel.postMessage({ type: 'ping' });
+    peers[name] = { channel, tabs };
+  }
+
+  // Resolves with the first message on channel that passes test, or null after ms.
+  function nextMessage(channel, test, ms) {
     return new Promise((resolve) => {
       const finish = (m) => {
         clearTimeout(timer);
-        zipChannel.removeEventListener('message', onMessage);
+        channel.removeEventListener('message', onMessage);
         resolve(m);
       };
       const onMessage = (e) => { if (e.data && test(e.data)) finish(e.data); };
       const timer = setTimeout(() => finish(null), ms);
-      zipChannel.addEventListener('message', onMessage);
+      channel.addEventListener('message', onMessage);
     });
   }
 
-  if (zipChannel) {
-    zipChannel.addEventListener('message', (e) => {
-      const m = e.data || {};
-      if (m.type === 'ready') { receivers.delete(m.id); receivers.add(m.id); }
-      else if (m.type === 'bye') receivers.delete(m.id);
-    });
-    zipChannel.postMessage({ type: 'ping' });
-  }
-
-  els.sendZip.addEventListener('click', async () => {
-    const done = items.filter((i) => i.out);
-    if (sending || !done.length) return;
-    if (items.some((i) => i.el.classList.contains('busy'))) { toast('還在轉檔，請稍候再傳送'); return; }
-    // Popup blockers only allow window.open() synchronously inside the click.
-    if (!receivers.size && !window.open(ZIP_TOOL_URL, 'ziptotaiwanzip')) {
-      toast('瀏覽器擋下了新分頁，請先開啟簡繁轉換工具再傳送');
-      return;
+  // Call synchronously from a click: if the tool isn't open this opens it in a new tab, which
+  // popup blockers only allow inside the gesture. Resolves true once the tool acks.
+  function sendToTool(name, build) {
+    const { channel, tabs } = peers[name];
+    const label = TOOLS[name].label;
+    if (!tabs.size && !window.open(TOOLS[name].url, name)) {
+      toast(`瀏覽器擋下了新分頁，請先開啟${label}再傳送`);
+      return Promise.resolve(false);
     }
-    sending = true;
-    els.sendZip.textContent = '傳送中…';
-    try {
-      const file = new File([await makeZip(done)], `paste2jpg-${timeStamp()}.zip`, { type: 'application/zip' });
+    return (async () => {
+      const msg = await build();
       // A tab we just opened may already have announced itself while we were zipping.
-      let to = [...receivers].pop();
+      let to = [...tabs].pop();
       if (!to) {
-        const ready = await nextMessage((m) => m.type === 'ready', 30000);
+        const ready = await nextMessage(channel, (m) => m.type === 'ready', 30000);
         to = ready && ready.id;
       }
-      if (!to) { toast('簡繁轉換工具沒有回應，請稍後再試一次'); return; }
-      const id = `${Date.now()}-${Math.random().toString(36).slice(2)}`;
-      const ack = nextMessage((m) => m.type === 'received' && m.id === id, 5000);
-      zipChannel.postMessage({ type: 'zip', to, id, file });
-      if (await ack) {
-        toast(`已打包 ${done.length} 張圖片，傳到簡繁轉換工具`);
-      } else {
-        receivers.delete(to); // closed without 'bye'; the next click opens a fresh tab
-        toast('簡繁轉換工具沒有回應，請再按一次');
+      if (!to) { toast(`${label}沒有回應，請稍後再試一次`); return false; }
+      const id = newId();
+      const ack = nextMessage(channel, (m) => m.type === 'received' && m.id === id, 5000);
+      channel.postMessage({ ...msg, to, id, from: 'paste2jpg' });
+      if (await ack) return true;
+      tabs.delete(to); // closed without 'bye'; the next click opens a fresh tab
+      toast(`${label}沒有回應，請再按一次`);
+      return false;
+    })();
+  }
+
+  let sending = false;
+  function bindSend(btn, name) {
+    const text = btn.textContent;
+    btn.addEventListener('click', async () => {
+      const done = items.filter((i) => i.out);
+      if (sending || !done.length || !peers[name]) return;
+      if (items.some((i) => i.el.classList.contains('busy'))) { toast('還在轉檔，請稍候再傳送'); return; }
+      sending = true;
+      btn.textContent = '傳送中…';
+      try {
+        const sent = await sendToTool(name, async () => ({
+          type: 'zip',
+          file: new File([await makeZip(done)], `paste2jpg-${timeStamp()}.zip`, { type: 'application/zip' }),
+        }));
+        if (sent) toast(`已打包 ${done.length} 張圖片，傳到${TOOLS[name].label}`);
+      } catch (err) {
+        console.warn('send zip failed', err);
+        toast('打包失敗，請改用下載');
+      } finally {
+        sending = false;
+        btn.textContent = text;
       }
-    } catch (err) {
-      console.warn('send zip failed', err);
-      toast('打包失敗，請改用下載');
-    } finally {
-      sending = false;
-      els.sendZip.textContent = '傳到簡繁轉換';
-    }
-  });
+    });
+  }
+  bindSend(els.sendZip, 'ziptotaiwanzip');
+  bindSend(els.sendEditor, 'zipeditor');
+
+  // Other tools (the ZIP editor) can hand us images on our own channel: {type:'files', files}.
+  const inbox = openChannel('paste2jpg');
+  if (inbox) {
+    const tabId = newId();
+    const announce = () => inbox.postMessage({ type: 'ready', id: tabId });
+    inbox.addEventListener('message', (e) => {
+      const m = e.data || {};
+      if (m.type === 'ping') {
+        announce();
+      } else if (m.type === 'files' && m.to === tabId && Array.isArray(m.files)) {
+        inbox.postMessage({ type: 'received', id: m.id });
+        toast(`收到 ${m.files.length} 張圖片`);
+        addBlobs(m.files, 'file');
+      }
+    });
+    window.addEventListener('pagehide', () => inbox.postMessage({ type: 'bye', id: tabId }));
+    window.addEventListener('pageshow', (e) => { if (e.persisted) announce(); });
+    announce();
+  }
 })();
 </script>
 </body>
